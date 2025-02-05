@@ -1,31 +1,42 @@
 <?php 
 // session_start();
 require_once (__DIR__.'/../models/User.php');
+require_once (__DIR__.'/../models/Admin.php');
 
 class AdminController extends BaseController {
     private $UserModel ;
+    private $AdminModel ;
     public function __construct(){
 
         $this->UserModel = new User();
+        $this->AdminModel = new Admin();
   
         
      }
 
    public function Admindashboard() {
       
-      if(!(isset($_SESSION['role']) == "Formateur")){
-         header("Location: /login ");
-         exit;
-      }
+      // if(!(isset($_SESSION['role']) == "Formateur")){
+      //    header("Location: /login ");
+      //    exit;
+      // }
     $user_id= $_SESSION['user_id'];
     $user_name= $_SESSION['user_name'];
-   
-    $this->render('Formateur/dashboard', ["user_id" => $user_id, "user_name" => $user_name]);
+    $apprenants=$this->AdminModel->GetAllStudents();
+    $this->render('Formateur/dashboard', ["user_id" => $user_id, "user_name" => $user_name,"apprenants"=>$apprenants]);
    }
    
-   public function categories() {
-
-    $this->renderDashboard('admin/categories');
+   public function DeleteUser($user_id){
+     $this->AdminModel->DeleteUser($user_id);
+     // Après la suppression, il faut récupérer la liste mise à jour des apprenants
+     $user_id = $_SESSION['user_id'];
+     $user_name = $_SESSION['user_name'];
+     $apprenants = $this->AdminModel->GetAllStudents();
+     $this->render("Formateur/dashboard", [
+         "user_id" => $user_id,
+         "user_name" => $user_name,
+         "apprenants" => $apprenants
+     ]);
    }
    public function testimonials() {
  

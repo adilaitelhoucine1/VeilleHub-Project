@@ -25,7 +25,7 @@ Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'handleRegister']);
 Route::get('/login', [AuthController::class, 'showleLogin']);
 Route::post('/login', [AuthController::class, 'handleLogin']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -37,7 +37,7 @@ Route::get('/admin', [AdminController::class, 'index']);
 // Route::get('/admin/testimonials', [AdminController::class, 'testimonials']);
 // Route::get('/admin/projects', [AdminController::class, 'projects']);
 Route::get('/Formateur/dashboard', [AdminController::class, 'Admindashboard']);
-
+Route::get('/formateur/delete/{id}', [AdminController::class, 'DeleteUser']);
 
 
 

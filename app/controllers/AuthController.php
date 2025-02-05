@@ -93,9 +93,9 @@ class AuthController extends BaseController {
       
       // if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["logout"])) {
       //  var_dump($_SESSION);die();
-         if (isset($_SESSION['user_loged_in_id']) && isset($_SESSION['user_loged_in_role'])) {
-             unset($_SESSION['user_loged_in_id']);
-             unset($_SESSION['user_loged_in_role']);
+         if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])) {
+             unset($_SESSION['user_id']);
+             unset($_SESSION['user_role']);
              session_destroy();
             
              header("Location: /login");
