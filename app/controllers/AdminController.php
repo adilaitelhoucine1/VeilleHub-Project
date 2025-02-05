@@ -38,6 +38,50 @@ class AdminController extends BaseController {
          "apprenants" => $apprenants
      ]);
    }
+   public function ChangerStatus($user_id) {
+    $result = $this->AdminModel->ChangerStatus($user_id);
+    
+    if ($result) {
+        header('Location: /Formateur/dashboard');
+        exit();
+    } else {
+        header('Location: /Formateur/dashboard?error=status_change_failed');
+        exit();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    public function testimonials() {
  
     $this->renderDashboard('admin/testimonials');

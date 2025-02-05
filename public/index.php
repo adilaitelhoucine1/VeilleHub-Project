@@ -38,6 +38,7 @@ Route::get('/admin', [AdminController::class, 'index']);
 // Route::get('/admin/projects', [AdminController::class, 'projects']);
 Route::get('/Formateur/dashboard', [AdminController::class, 'Admindashboard']);
 Route::get('/formateur/delete/{id}', [AdminController::class, 'DeleteUser']);
+Route::get('/Formateur/toggle-status/{id}', [AdminController::class, 'ChangerStatus']);
 
 
 

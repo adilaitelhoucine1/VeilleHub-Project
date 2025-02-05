@@ -291,13 +291,13 @@
                                     <p class="text-blue-300 text-sm"><?php echo $apprenant['email'] ?></p>
                                 </div>
                                 <!-- Status Badge -->
-                                <span class="<?php echo $apprenant['status'] === 'active' ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300' ?> px-2 py-1 rounded-full text-xs">
-                                    <?php echo $apprenant['status'] === 'active' ? 'Actif' : 'Inactif' ?>
+                                <span >
+                                    <?php echo $apprenant['status'] ?>
                                 </span>
                             </div>
                             <div class="mt-3 flex gap-2">
                                 <!-- Bouton Activer/Désactiver -->
-                                <a href="formateur/toggle-status/<?php echo $apprenant['id_user'] ?>" 
+                                <a href="/Formateur/toggle-status/<?php echo $apprenant['id_user'] ?>" 
                                    class="p-2 <?php echo $apprenant['status'] === 'active' ? 'hover:bg-red-500/20' : 'hover:bg-green-500/20' ?> rounded-lg transition-colors"
                                    onclick="return confirm('Êtes-vous sûr de vouloir <?php echo $apprenant['status'] === 'active' ? 'désactiver' : 'activer' ?> ce compte ?');">
                                     <i class="fas <?php echo $apprenant['status'] === 'active' ? 'fa-user-slash text-red-400' : 'fa-user-check text-green-400' ?>"></i>
