@@ -40,7 +40,9 @@ Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/Formateur/dashboard', [AdminController::class, 'Admindashboard']);
 Route::get('/formateur/delete/{id}', [AdminController::class, 'DeleteUser']);
 Route::get('/Formateur/toggle-status/{id}', [AdminController::class, 'ChangerStatus']);
-
+Route::get('/Formateur/valider_Suggestion', [AdminController::class, 'ShowSuggestion']);
+Route::get('/Formateur/approve-suggestion/{id}', [AdminController::class, 'ApproveSuggestion']);
+Route::get('/Formateur/reject-suggestion/{id}', [AdminController::class, 'RejectSuggestion']);
 
 
 

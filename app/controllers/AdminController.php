@@ -28,7 +28,6 @@ class AdminController extends BaseController {
    
    public function DeleteUser($user_id){
      $this->AdminModel->DeleteUser($user_id);
-     // Après la suppression, il faut récupérer la liste mise à jour des apprenants
      $user_id = $_SESSION['user_id'];
      $user_name = $_SESSION['user_name'];
      $apprenants = $this->AdminModel->GetAllStudents();
@@ -48,41 +47,51 @@ class AdminController extends BaseController {
         header('Location: /Formateur/dashboard?error=status_change_failed');
         exit();
     }
+
 }
 
+public function ShowSuggestion() {
+    // if(!($_SESSION['role'] == 'Formateur')) {
+    //     header("Location: /login");
+    //     exit;
+    // }
 
+    $suggestions = $this->AdminModel->GetAllSuggestion();
+    
+    if($suggestions === null) {
+        $suggestions = [];
+    }
 
+    $this->render("Formateur/validate_suggestions", [
+        "suggestions" => $suggestions
+    ]);
+}
 
+public function ApproveSuggestion($sujet_id) {
+    // if(!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Formateur') {
+    //     header("Location: /login");
+    //     exit;
+    // }
+    
+    if($this->AdminModel->ApproveSuggestion($sujet_id)) {
+        header("Location: /Formateur/valider_Suggestion");
+        exit();
+    }
+}
 
+public function RejectSuggestion($sujet_id) {
+    // if(!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Formateur') {
+    //     header("Location: /login");
+    //     exit;
+    // }
+    
+    if($this->AdminModel->RejectSuggestion($sujet_id)) {
+        header("Location: /Formateur/valider_Suggestion");
+        exit();
+    } 
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   public function testimonials() {
+public function testimonials() {
  
     $this->renderDashboard('admin/testimonials');
    }

@@ -138,7 +138,7 @@
         </div>
 
         <!-- Notifications -->
-        <div class="fixed bottom-4 right-4">
+        <!-- <div class="fixed bottom-4 right-4">
             <div class="bg-white p-4 rounded-lg shadow-lg border-l-4 border-blue-500 max-w-md">
                 <div class="flex justify-between items-start">
                     <div>
@@ -150,7 +150,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Suggestions et Classement -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

@@ -95,10 +95,15 @@
                 <a href="#" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
                     <i class="fas fa-users mr-3"></i>Apprenants
                 </a>
+                <a href="/Formateur/valider_Suggestion" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
+                    <i class="fas fa-chart-bar mr-3"></i>Propositions
+                </a>
                 <a href="#" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
                     <i class="fas fa-chart-bar mr-3"></i>Statistiques
                 </a>
-                
+                <a href="/logout" class="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg">
+                    <i class="fas fa-sign-out-alt mr-3"></i>Déconnexion
+                </a>
             </div>
         </nav>
     </div>
