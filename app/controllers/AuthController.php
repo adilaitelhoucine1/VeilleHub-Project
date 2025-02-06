@@ -50,7 +50,7 @@ class AuthController extends BaseController {
                  if ($lastInsertId && $role == "Formateur") {
                      header('Location: Formateur/dashboard');
                  } else if ($lastInsertId && $role == "Apprenant") {
-                     header('Location: Apprenant/dashboard');
+                     header('Location: Etudiant/dashboard');
                  }                  
                  
                  exit;
@@ -76,7 +76,7 @@ class AuthController extends BaseController {
                 if ($user['role'] == "Formateur") {
                     header('Location: /Formateur/dashboard');
                 } else if ($user['role'] == "Apprenant") {
-                    header('Location: /Apprenant/dashboard');
+                    header('Location: /Etudiant/dashboard');
                 }
                 exit;
             }

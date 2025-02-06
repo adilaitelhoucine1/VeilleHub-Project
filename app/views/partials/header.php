@@ -20,5 +20,3 @@
     <?php require_once(__DIR__.'/../partials/sidebar.php');?>
 
           
-    <div class="flex flex-col flex-1 overflow-hidden">
-        <?php require_once(__DIR__.'/../partials/topbar.php');?>

@@ -9,6 +9,7 @@ require_once '../core/Route.php';
 require_once '../app/controllers/HomeController.php';
 require_once '../app/controllers/AuthController.php';
 require_once '../app/controllers/AdminController.php';
+require_once '../app/controllers/StudentController.php';
 require_once '../app/config/db.php';
 
 
@@ -49,8 +50,11 @@ Route::get('/Formateur/toggle-status/{id}', [AdminController::class, 'ChangerSta
 
 // end admin routes 
 
-// client Routes 
-// Route::get('/client/dashboard', [ClientController::class, 'index']);
+// Student Routes 
+Route::get('/Etudiant/dashboard', [StudentController::class, 'ShowDashboard']);
+Route::post('/addSuggestion', [StudentController::class, 'AddSuggestion']);
+Route::get('/Etudiant/suggestions', [StudentController::class, 'ShowSuggestions']);
+Route::get('/Etudiant/deleteSuggestion/{sujet_id}', [StudentController::class, 'DeleteSuggestion']);
 
 
 
