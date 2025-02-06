@@ -96,7 +96,11 @@
                     <i class="fas fa-users mr-3"></i>Apprenants
                 </a>
                 <a href="/Formateur/valider_Suggestion" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
-                    <i class="fas fa-chart-bar mr-3"></i>Propositions
+                    <i class="fas fa-lightbulb mr-3"></i>Propositions
+                </a>
+                <a href="/Formateur/Showsubjects" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
+                    <i class="fas fa-tasks mr-3"></i>Attribution Sujets
+                    <!-- <span class="ml-auto bg-blue-500 text-xs px-2 py-1 rounded-full">Nouveau</span> -->
                 </a>
                 <a href="#" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
                     <i class="fas fa-chart-bar mr-3"></i>Statistiques

@@ -102,5 +102,74 @@ public function GetSuggestionStats() {
         return ['pending' => 0, 'approved' => 0, 'rejected' => 0];
     }
 }
+
+public function GetValidatedSubjects() {
+   
+        $sql = "SELECT s.id_sujet, s.titre, s.description, s.date_creation, s.status,
+                       u.nom as proposer_name, u.id_user as proposer_id
+                FROM sujet s
+                JOIN user u ON s.id_student = u.id_user
+                WHERE s.status = 'Validé'
+                ORDER BY s.date_creation DESC";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($subjects as &$subject) {
+            $sql = "SELECT u.id_user, u.nom, u.email, u.status
+                    FROM user u
+                    JOIN subject_assignments sa ON u.id_user = sa.student_id
+                    WHERE sa.sujet_id = ?";
+            
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$subject['id_sujet']]);
+            $subject['assigned_students'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $subjects;
+ 
+}
+public function assignStudentsToSubject($sujet_id, $student_ids) {
+
+   
+
+        $this->conn->beginTransaction();
+
+        $sqlDelete = "DELETE FROM subject_assignments WHERE sujet_id = ?";
+        $stmtDelete = $this->conn->prepare($sqlDelete);
+        $stmtDelete->execute([$sujet_id]);
+
+        $sqlInsert = "INSERT INTO subject_assignments (sujet_id, student_id, assigned_date) VALUES (?, ?, NOW())";
+        $stmtInsert = $this->conn->prepare($sqlInsert);
+
+        foreach ($student_ids as $student_id) {
+            $stmtInsert->execute([$sujet_id, $student_id]);
+        }
+
+        $this->conn->commit();
+        return true;
+
+
+}
+
+// public function GetValidatedSubjects() {
+//     try {
+//         $sql = "SELECT s.id_sujet, s.titre, s.description, s.date_creation,
+//                        u.nom as proposer_name
+//                 FROM sujet s
+//                 JOIN user u ON s.id_student = u.id_user
+//                 WHERE s.status = 'Validé'
+//                 ORDER BY s.date_creation DESC";
+                
+//         $stmt = $this->conn->prepare($sql);
+//         $stmt->execute();
+//         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+//     } catch(PDOException $e) {
+//         error_log("Erreur lors de la récupération des sujets validés : " . $e->getMessage());
+//         return [];
+//     }
+// }
 }
 

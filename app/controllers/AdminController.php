@@ -91,6 +91,49 @@ public function RejectSuggestion($sujet_id) {
     } 
 }
 
+
+public function ShowSubjects() {
+    // Récupérer les sujets validés
+    $suggestions = $this->AdminModel->GetValidatedSubjects();
+    $students = $this->AdminModel->GetAllStudents();
+   
+    // Rendre la vue avec les sujets
+    $this->render("Formateur/assign_subjects", [
+        "suggestions" => $suggestions,
+        "students" => $students,
+
+    ]);
+}
+
+
+
+
+public function assign_students() {
+
+        $sujet_id = $_POST['sujet_id'];
+        $student_ids = $_POST['students'] ;
+     //print_r($student_ids);
+     die();
+        if (empty($student_ids) || !is_array($student_ids) || count($student_ids) < 2) {
+            header('Location: /Formateur/Showsubjects');
+        }else{
+            $result = $this->AdminModel->assignStudentsToSubject($sujet_id, $student_ids);
+    
+            if ($result) {
+                header('Location: /Formateur/Showsubjects');
+                exit();
+            }
+        }
+
+
+    
+}
+
+
+
+
+
+
 public function testimonials() {
  
     $this->renderDashboard('admin/testimonials');
@@ -100,20 +143,30 @@ public function testimonials() {
     $this->renderDashboard('admin/projects');
    }
 
-   public function handleUsers(){
+//    public function handleUsers(){
   
 
 
     
-    // Get filter and search values from GET
-    $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all'; // Default to 'all' if no filter is selected
-    $userToSearch = isset($_GET['userToSearch']) ? $_GET['userToSearch'] : ''; // Default to empty if no search term is provided
-    // var_dump($userToSearch);die();
+//     // Get filter and search values from GET
+//     $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all'; // Default to 'all' if no filter is selected
+//     $userToSearch = isset($_GET['userToSearch']) ? $_GET['userToSearch'] : ''; // Default to empty if no search term is provided
+//     // var_dump($userToSearch);die();
 
-    // Call showUsers with both filter and search term
-    $users = $this->UserModel->getAllUsers($filter, $userToSearch);
-    $this->renderDashboard('admin/users',["users"=> $users]);
-   }
+//     // Call showUsers with both filter and search term
+//     $users = $this->UserModel->getAllUsers($filter, $userToSearch);
+//     $this->renderDashboard('admin/users',["users"=> $users]);
+//    }
+
+
+
+
+
+
+
+
+
+
 
     // function to remove user
     // function removeUser($idUser){
