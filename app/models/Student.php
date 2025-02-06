@@ -24,6 +24,11 @@ public function GetMySuggestions($user_id){
     $stmt = $this->conn->prepare($sql);
     return $stmt->execute([$sujet_id, $user_id]);
 }
+public function UpdateSuggestion($sujet_id, $titre, $description, $user_id) {
+    $sql = "UPDATE sujet SET titre = ?, description = ? WHERE id_sujet = ? AND id_student = ?";
+    $stmt = $this->conn->prepare($sql);
+    return $stmt->execute([$titre, $description, $sujet_id, $user_id]);
+}
 
 }
 ?>

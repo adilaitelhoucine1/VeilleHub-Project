@@ -72,6 +72,22 @@ public function DeleteSuggestion($sujet_id) {
     exit();
 }
 
+public function UpdateSuggestion() {
+    if(!isset($_SESSION['user_id']) || !isset($_POST['id_sujet']) || !isset($_POST['titre']) || !isset($_POST['description'])) {
+        header('Location: /Etudiant/suggestions');
+        exit();
+    }
+    
+    $user_id = $_SESSION['user_id'];
+    $sujet_id = $_POST['id_sujet'];
+    $titre = $_POST['titre'];
+    $description = $_POST['description'];
+    
+    $this->StudentModel->UpdateSuggestion($sujet_id, $titre, $description, $user_id);
+    
+    header('Location: /Etudiant/suggestions');
+    exit();
+}
 
 }
 ?>

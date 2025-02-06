@@ -133,11 +133,13 @@
                                                 </div>
                                                 
                                                 <div class="flex items-center gap-3">
-                                                    <a href='/Etudiant/editSuggestion/<?= $suggest['id'] ?>' class='flex items-center px-3 py-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors'>
+                                                    <button onclick="openEditModal('<?= $suggest['id_sujet'] ?>', '<?= $suggest['titre'] ?>', '<?= $suggest['description'] ?>')" 
+                                                            class="flex items-center px-3 py-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
                                                         <i class="fas fa-edit mr-2"></i>
                                                         Modifier
-                                                    </a>
-                                                    <a href='/Etudiant/deleteSuggestion/<?= $suggest['id_sujet'] ?>' class='flex items-center px-3 py-1.5 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors'>
+                                                    </button>
+                                                    <a href="/Etudiant/deleteSuggestion/<?= $suggest['id_sujet'] ?>" 
+                                                       class="flex items-center px-3 py-1.5 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">
                                                         <i class="fas fa-trash-alt mr-2"></i>
                                                         Supprimer
                                                     </a>
@@ -205,36 +207,24 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center pb-3">
                         <h3 class="text-xl font-semibold text-gray-800">Modifier la suggestion</h3>
-                        <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500 transition-colors">
+                        <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                    <form id="editForm" class="mt-4" action="/updateSuggestion" method="POST">
-                        <input type="hidden" id="editId" name="id">
+                    <form action="/Etudiant/updateSuggestion" method="POST">
+                        <input type="hidden" id="editId" name="id_sujet">
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="editTitre">
-                                    Titre du sujet
-                                </label>
-                                <input type="text" id="editTitre" name="titre" required
-                                    class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="editTitre">Titre</label>
+                                <input type="text" id="editTitre" name="titre" required class="shadow-sm border rounded w-full py-2 px-3 text-gray-700">
                             </div>
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="editDescription">
-                                    Description
-                                </label>
-                                <textarea id="editDescription" name="description" rows="4" required
-                                    class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="editDescription">Description</label>
+                                <textarea id="editDescription" name="description" rows="4" required class="shadow-sm border rounded w-full py-2 px-3 text-gray-700"></textarea>
                             </div>
-                            <div class="flex flex-col sm:flex-row justify-end gap-3">
-                                <button type="button" onclick="closeEditModal()"
-                                    class="w-full sm:w-auto px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors">
-                                    Annuler
-                                </button>
-                                <button type="submit"
-                                    class="w-full sm:w-auto px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
-                                    Enregistrer
-                                </button>
+                            <div class="flex justify-end gap-3">
+                                <button type="button" onclick="closeEditModal()" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Annuler</button>
+                                <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">Enregistrer</button>
                             </div>
                         </div>
                     </form>
@@ -254,9 +244,10 @@
             document.body.style.overflow = 'auto';
         }
 
-        function openEditModal(id) {
-            // Récupérer les données de la suggestion et remplir le formulaire
+        function openEditModal(id, titre, description) {
             document.getElementById('editId').value = id;
+            document.getElementById('editTitre').value = titre;
+            document.getElementById('editDescription').value = description;
             document.getElementById('editModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
