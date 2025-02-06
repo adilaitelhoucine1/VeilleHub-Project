@@ -113,7 +113,7 @@ public function assign_students() {
         $sujet_id = $_POST['sujet_id'];
         $student_ids = $_POST['students'] ;
      //print_r($student_ids);
-     die();
+    // die();
         if (empty($student_ids) || !is_array($student_ids) || count($student_ids) < 2) {
             header('Location: /Formateur/Showsubjects');
         }else{

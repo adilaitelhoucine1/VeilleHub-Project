@@ -14,7 +14,7 @@
                 <i class="fas fa-home mr-3"></i>Tableau de bord
             </a>
             <a href="/Etudiant/presentations" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">
-                <i class="fas fa-presentation mr-3"></i>Mes présentations
+                <i class="fas fa-chalkboard-teacher mr-3"></i>Mes présentations
             </a>
             <a href="#calendar" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">
                 <i class="fas fa-calendar mr-3"></i>Calendrier
@@ -30,4 +30,4 @@
             </a>
         </div>
     </nav>
-</div> 
+</div>

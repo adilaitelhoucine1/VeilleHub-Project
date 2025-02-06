@@ -89,5 +89,17 @@ public function UpdateSuggestion() {
     exit();
 }
 
+public function ShowPresentations() {
+    $user_id = $_SESSION['user_id'];
+    $user_name = $_SESSION['user_name'];
+    
+    $presentation=$this->StudentModel->GetPresentations($user_id);
+    $this->render('Etudiant/presentations', [
+        "user_id" => $user_id,
+        "user_name" => $user_name,
+        "presentation" => $presentation
+    ]);
+}
+
 }
 ?>

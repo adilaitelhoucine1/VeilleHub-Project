@@ -62,6 +62,7 @@ Route::post('/addSuggestion', [StudentController::class, 'AddSuggestion']);
 Route::get('/Etudiant/suggestions', [StudentController::class, 'ShowSuggestions']);
 Route::get('/Etudiant/deleteSuggestion/{sujet_id}', [StudentController::class, 'DeleteSuggestion']);
 Route::post('/Etudiant/updateSuggestion', [StudentController::class, 'UpdateSuggestion']);
+Route::get('/Etudiant/presentations', [StudentController::class, 'ShowPresentations']);
 
 
 
