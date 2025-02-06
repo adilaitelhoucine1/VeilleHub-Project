@@ -89,7 +89,7 @@
                 <a href="/Formateur/dashboard" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
                     <i class="fas fa-home mr-3"></i>Dashboard
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
+                <a href="/Formateur/calendar" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
                     <i class="fas fa-calendar-alt mr-3"></i>Planning
                 </a>
                 <a href="#" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">

@@ -47,6 +47,9 @@ Route::post('/Formateur/assign-students', [AdminController::class, 'assign_stude
 
 Route::get('/Formateur/Showsubjects', [AdminController::class, 'ShowSubjects']);
 
+Route::get('/Formateur/calendar', [AdminController::class, 'ShowCalendar']);
+Route::post('/Formateur/schedule-presentation', [AdminController::class, 'SchedulePresentation']);
+
 
 
 

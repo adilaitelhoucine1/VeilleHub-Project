@@ -211,4 +211,37 @@ public function testimonials() {
 
  
 
+public function ShowCalendar() {
+    $presentations = $this->AdminModel->GetScheduledPresentations();
+    $assignedSubjects = $this->AdminModel->GetAssignedSubjectsWithoutDate();
+    
+    $this->render('Formateur/calendar', [
+        "presentations" => $presentations,
+        "assignedSubjects" => $assignedSubjects
+    ]);
+}
+
+public function SchedulePresentation() {
+    if (!isset($_POST['sujet_id'], $_POST['presentation_date'], $_POST['presentation_time'])) {
+        header('Location: /Formateur/calendar?error=missing_data');
+        exit();
+    }
+
+    $sujet_id = $_POST['sujet_id'];
+    $presentation_date = $_POST['presentation_date'];
+    $presentation_time = $_POST['presentation_time'];
+    
+    // Combine date and time
+    $presentation_datetime = $presentation_date . ' ' . $presentation_time;
+    
+    $result = $this->AdminModel->SchedulePresentation($sujet_id, $presentation_datetime);
+    
+    if ($result) {
+        header('Location: /Formateur/calendar?success=scheduled');
+    } else {
+        header('Location: /Formateur/calendar?error=scheduling_failed');
+    }
+    exit();
+}
+
 }

@@ -171,5 +171,57 @@ public function assignStudentsToSubject($sujet_id, $student_ids) {
 //         return [];
 //     }
 // }
+
+public function GetScheduledPresentations() {
+    try {
+        $sql = "SELECT p.*, s.titre, 
+                GROUP_CONCAT(u.nom SEPARATOR ', ') as student_names
+                FROM presentations p
+                JOIN sujet s ON p.sujet_id = s.id_sujet
+                JOIN subject_assignments sa ON s.id_sujet = sa.sujet_id
+                JOIN user u ON sa.student_id = u.id_user
+                GROUP BY p.id_presentation
+                ORDER BY p.presentation_date ASC";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch(PDOException $e) {
+        error_log("Erreur lors de la récupération des présentations : " . $e->getMessage());
+        return [];
+    }
+}
+
+public function GetAssignedSubjectsWithoutDate() {
+    try {
+        $sql = "SELECT s.id_sujet, s.titre,
+                GROUP_CONCAT(u.nom SEPARATOR ', ') as student_names
+                FROM sujet s
+                JOIN subject_assignments sa ON s.id_sujet = sa.sujet_id
+                JOIN user u ON sa.student_id = u.id_user
+                LEFT JOIN presentations p ON s.id_sujet = p.sujet_id
+                WHERE p.id_presentation IS NULL
+                AND s.status = 'Validé'
+                GROUP BY s.id_sujet";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch(PDOException $e) {
+        error_log("Erreur lors de la récupération des sujets : " . $e->getMessage());
+        return [];
+    }
+}
+
+public function SchedulePresentation($sujet_id, $presentation_datetime) {
+    try {
+        $sql = "INSERT INTO presentations (sujet_id, presentation_date) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$sujet_id, $presentation_datetime]);
+    } catch(PDOException $e) {
+        error_log("Erreur lors de la programmation de la présentation : " . $e->getMessage());
+        return false;
+    }
+}
 }
 
