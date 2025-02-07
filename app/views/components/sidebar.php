@@ -1,9 +1,15 @@
 <div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
-    <div class="p-6 border-b">
-        <div class="flex items-center space-x-3">
-            <img src="https://www.youcode.ma/images/logo-youcode.png" alt="YouCode" class="h-8">
-            <span class="text-xl font-bold text-gray-800">YouCode</span>
-        </div>
+<div class="p-6">
+            <div class="flex items-center justify-center space-x-3">
+                <img src="https://intranet.youcode.ma/src/img/logo-white.png" 
+                     alt="YouCode" 
+                     class="h-8 w-auto"
+                     style="filter: brightness(0) invert(0);"
+                >
+                <span class="text-sm font-semibold text-gray-600">
+                    Veille
+                </span>
+            </div>
     </div>
     <nav class="mt-6">
         <div class="px-4 py-2">
@@ -16,7 +22,7 @@
             <a href="/Etudiant/presentations" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">
                 <i class="fas fa-chalkboard-teacher mr-3"></i>Mes présentations
             </a>
-            <a href="#calendar" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">
+            <a href="/Etudiant/calendar" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">
                 <i class="fas fa-calendar mr-3"></i>Calendrier
             </a>
             <a href="/Etudiant/suggestions" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">

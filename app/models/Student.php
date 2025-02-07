@@ -50,5 +50,33 @@ public function GetPresentations($user_id) {
         
 
 }
+public function GetCalendarEvents($user_id) {
+    try {
+        $sql = "SELECT s.titre, p.presentation_date, 
+                GROUP_CONCAT(u.nom SEPARATOR ', ') as student_names
+                FROM presentations p
+                JOIN sujet s ON p.sujet_id = s.id_sujet
+                JOIN subject_assignments sa ON s.id_sujet = sa.sujet_id
+                JOIN user u ON sa.student_id = u.id_user
+                WHERE sa.sujet_id IN (
+                    SELECT sujet_id 
+                    FROM subject_assignments 
+                    WHERE student_id = ?
+                )
+                GROUP BY p.id_presentation";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$user_id]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Debug
+        error_log('Calendar Events Query Results: ' . print_r($results, true));
+        
+        return $results;
+    } catch (PDOException $e) {
+        error_log('Database Error: ' . $e->getMessage());
+        return [];
+    }
+}
 }
 ?>

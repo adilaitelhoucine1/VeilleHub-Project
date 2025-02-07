@@ -244,4 +244,20 @@ public function SchedulePresentation() {
     exit();
 }
 
+public function UpdatePresentationStatus($presentation_id, $status) {
+    if (!in_array($status, ['pending', 'completed', 'cancelled'])) {
+        header('Location: /Formateur/calendar?error=invalid_status');
+        exit();
+    }
+
+    $result = $this->AdminModel->UpdatePresentationStatus($presentation_id, $status);
+    
+    if ($result) {
+        header('Location: /Formateur/calendar?success=status_updated');
+    } else {
+        header('Location: /Formateur/calendar?error=update_failed');
+    }
+    exit();
+}
+
 }

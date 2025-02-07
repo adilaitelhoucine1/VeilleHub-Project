@@ -3,155 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veille Pédagogique - YouCode</title>
+    <title>YouCode Innovation Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <style>
-        :root {
-            --youcode-blue: #2563eb;
-            --youcode-dark-blue: #1e40af;
+        * {
+            font-family: 'Poppins', sans-serif;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+        .innovation-bg {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .tech-lines {
+            background-image: linear-gradient(rgba(37, 99, 235, 0.1) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(37, 99, 235, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center center;
         }
 
         .gradient-text {
             background: linear-gradient(45deg, #2563eb, #3b82f6, #60a5fa);
             -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            background-size: 200% 200%;
-            animation: gradientBG 5s ease infinite;
-        }
-
-        .floating-element {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .tech-background {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-                        url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tech-background::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, rgba(37, 99, 235, 0.2) 0%, transparent 70%);
-            animation: pulse 4s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        .glass-card {
-            background: rgba(30, 58, 138, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(37, 99, 235, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .glass-card:hover {
-            background: rgba(30, 58, 138, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .hover-glow:hover {
-            box-shadow: 0 0 25px rgba(37, 99, 235, 0.5);
-        }
-
-        .stats-counter {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: countUp 1s ease forwards;
-        }
-
-        @keyframes countUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            -webkit-text-fill-color: transparent;
         }
 
         .card-3d {
-            transform-style: preserve-3d;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
         }
 
         .card-3d:hover {
-            transform: rotateX(10deg) rotateY(10deg);
+            transform: translateY(-10px) rotateX(10deg) rotateY(10deg);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+            border-color: rgba(37, 99, 235, 0.4);
         }
 
-        .blue-glow {
-            box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+        .floating {
+            animation: floating 3s ease-in-out infinite;
         }
 
-        .animated-border {
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .shine-effect {
             position: relative;
             overflow: hidden;
         }
 
-        .animated-border::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #2563eb, transparent);
-            animation: borderFlow 2s infinite;
-        }
-
-        @keyframes borderFlow {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Nouvelles animations et effets */
-        .animate-typing {
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 2px solid #2563eb;
-            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #2563eb }
-        }
-
-        .card-shine {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-shine::before {
+        .shine-effect::after {
             content: '';
             position: absolute;
             top: -50%;
@@ -159,10 +67,10 @@
             width: 200%;
             height: 200%;
             background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(37, 99, 235, 0.1),
-                transparent
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
             );
             transform: rotate(45deg);
             animation: shine 3s infinite;
@@ -173,228 +81,396 @@
             100% { transform: translateX(100%) rotate(45deg); }
         }
 
-        .particle {
+        #canvas-container {
             position: absolute;
-            pointer-events: none;
-            animation: particleFloat 15s infinite linear;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            opacity: 0.3;
         }
 
-        @keyframes particleFloat {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-100vh) rotate(360deg); }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(37, 99, 235, 0.2);
         }
 
-        .hero-gradient {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #3b82f6 50%, #60a5fa 75%, #93c5fd 100%);
+        .btn-primary {
+            background: linear-gradient(45deg, #2563eb, #3b82f6);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(120deg, #FF0080, #7928CA);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-pattern {
+            background-color: #0F172A;
+            background-image: radial-gradient(circle at 1px 1px, #FF0080 1px, transparent 0);
+            background-size: 40px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-pattern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7));
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            border-color: #FF0080;
+            box-shadow: 0 10px 30px rgba(255, 0, 128, 0.2);
+        }
+
+        .animated-gradient {
+            background: linear-gradient(-45deg, #FF0080, #7928CA, #00DFD8, #007CF0);
             background-size: 400% 400%;
-            animation: gradientMove 15s ease infinite;
+            animation: gradient 15s ease infinite;
         }
 
-        @keyframes gradientMove {
-            0% { background-position: 0% 50% }
-            50% { background-position: 100% 50% }
-            100% { background-position: 0% 50% }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .scale-hover {
-            transition: transform 0.3s ease;
+        .custom-shape {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
         }
 
-        .scale-hover:hover {
-            transform: scale(1.05);
+        .custom-shape svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 150px;
         }
 
-        .floating-icons {
+        .custom-shape .shape-fill {
+            fill: #FFFFFF;
+        }
+
+        .neon-border {
+            position: relative;
+            border: 1px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            margin: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            z-index: -1;
+        }
+
+        .floating-3d {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .card-3d {
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+
+        .card-3d:hover {
+            transform: rotateY(10deg) rotateX(10deg);
+        }
+
+        #particles-js {
             position: absolute;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .cyber-button {
+            position: relative;
             overflow: hidden;
-            z-index: 0;
+            transition: all 0.3s;
+        }
+
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            top: 0;
+            left: -100%;
+            transition: 0.5s;
+        }
+
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+
+        .hologram {
+            position: relative;
+        }
+
+        .hologram::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 255, 0.1) 0px,
+                rgba(0, 255, 255, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .matrix-text {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .matrix-text::before {
+            content: attr(data-text);
+            position: absolute;
+            left: -2px;
+            text-shadow: 2px 0 #00ffff;
+            background: #000;
+            overflow: hidden;
+            animation: noise-1 3s linear infinite alternate;
+        }
+
+        @keyframes noise-1 {
+            0%, 3%, 5%, 42%, 44%, 100% { opacity: 1; transform: scaleY(1); }
+            4.3% { opacity: 1; transform: scaleY(1.7); }
+            43% { opacity: 1; transform: scaleX(1.5); }
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white">
-    
-    <!-- Header avec effet glassmorphism -->
-    <header class="fixed top-0 left-0 w-full glass-card py-4 z-50">
-        <div class="container mx-auto flex justify-between items-center px-6">
-            <div class="flex items-center space-x-2">
-                <img src="https://www.youcode.ma/images/logo-youcode.png" alt="YouCode Logo" class="h-8 floating-element">
-                <h1 class="text-2xl font-extrabold gradient-text">Veille Pédagogique</h1>
+<body class="innovation-bg text-gray-800">
+    <div id="canvas-container"></div>
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-effect">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="/public/assets/images/logo-youcode.png" alt="YouCode" class="h-12 floating">
+                    <span class="text-2xl font-bold gradient-text">YouCode</span>
+                </div>
+                <div class="flex items-center space-x-8">
+                    <a href="#calendar" class="text-gray-600 hover:text-blue-600 transition-colors">
+                        <i class="fas fa-calendar-alt mr-2"></i>Calendrier
+                    </a>
+                    <a href="/login" class="text-gray-600 hover:text-blue-600 transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Connexion
+                    </a>
+                    <a href="/register" class="btn-primary px-6 py-2 text-white rounded-lg shine-effect">
+                        <i class="fas fa-user-plus mr-2"></i>Inscription
+                    </a>
+                </div>
             </div>
-            <nav class="space-x-4">
-                <a href="/register" class="px-5 py-2 text-gray-300 font-semibold hover:text-blue-400 transition duration-300">
-                    <i class="fas fa-sign-in-alt mr-2"></i>Connexion
-                </a>
-                <a href="/login" class="px-5 py-2 bg-blue-600 text-white rounded-lg font-semibold shadow-md hover:bg-blue-700 transition transform hover:scale-105 hover-glow">
-                    <i class="fas fa-user-plus mr-2"></i>Inscription
-                </a>
-            </nav>
         </div>
-    </header>
+    </nav>
 
-    <!-- Hero Section amélioré -->
-    <section class="tech-background relative h-screen flex items-center justify-center text-center overflow-hidden">
-        <!-- Floating Icons Background -->
-        <div class="floating-icons">
-            <i class="fas fa-code particle text-blue-400 text-2xl" style="left: 10%; animation-delay: 0s;"></i>
-            <i class="fas fa-database particle text-blue-300 text-xl" style="left: 20%; animation-delay: 2s;"></i>
-            <i class="fas fa-laptop-code particle text-blue-500 text-3xl" style="left: 30%; animation-delay: 4s;"></i>
-            <i class="fas fa-brain particle text-blue-200 text-2xl" style="left: 40%; animation-delay: 6s;"></i>
-            <!-- Ajoutez plus d'icônes selon besoin -->
+    <!-- Hero Section -->
+    <section class="min-h-screen relative flex items-center justify-center tech-lines">
+        <div class="container mx-auto px-6 py-20 relative z-10">
+            <div class="text-center max-w-4xl mx-auto" data-aos="fade-up">
+                <h1 class="text-6xl font-bold mb-8 gradient-text">
+                    Innovez avec YouCode
+                </h1>
+                <p class="text-xl text-gray-600 mb-12">
+                    Découvrez une nouvelle façon d'apprendre et de partager vos connaissances
+                </p>
+                <div class="flex justify-center gap-8">
+                    <a href="#register" class="btn-primary px-8 py-4 text-white rounded-lg shine-effect">
+                        Commencer l'aventure
+                    </a>
+                    <a href="#calendar" class="px-8 py-4 glass-effect rounded-lg hover:shadow-lg transition-all">
+                        Explorer le planning
+                    </a>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="max-w-4xl px-6 relative z-10" data-aos="fade-up">
-            <h2 class="text-7xl font-extrabold leading-tight mb-6">
-                <span class="gradient-text animate-typing">Développez vos talents</span>
+    <!-- Features Section -->
+    <section class="py-20 bg-white relative">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card-3d p-8 rounded-xl" data-aos="fade-up">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-calendar-alt text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Calendrier Interactif</h3>
+                    <p class="text-gray-600">
+                        Consultez et gérez facilement les présentations à venir
+                    </p>
+                </div>
+                <!-- Autres cartes similaires -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section id="calendar" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 gradient-text">
+                Prochaines Présentations
             </h2>
-            <p class="text-2xl text-gray-300 mb-8 opacity-0 transform translate-y-10" 
-               data-aos="fade-up" 
-               data-aos-delay="300">
-                Rejoignez la communauté YouCode et devenez un développeur d'exception
-            </p>
-            <div class="flex justify-center space-x-4">
-                <a href="#" class="px-8 py-4 bg-blue-600 text-white rounded-lg font-bold shadow-lg hover:bg-blue-700 
-                                  transition transform hover:scale-110 hover-glow scale-hover">
-                    <i class="fas fa-rocket mr-2"></i>Commencer
-                </a>
-                <a href="#calendar" class="px-8 py-4 glass-card text-white rounded-lg font-bold shadow-lg 
-                                        hover:bg-gray-700/50 transition transform hover:scale-110">
-                    <i class="fas fa-calendar-alt mr-2"></i>Voir le planning
-                </a>
+            <div class="grid md:grid-cols-3 gap-8">
+                <?php foreach($presentations as $presentation): ?>
+                <div class="card-3d p-6 rounded-xl bg-white" data-aos="fade-up">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">
+                            <?php echo htmlspecialchars($presentation['titre']); ?>
+                        </h3>
+                        <span class="px-4 py-1 rounded-full gradient-bg text-white text-sm">
+                            <?php echo date('d/m', strtotime($presentation['presentation_date'])); ?>
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        <?php echo htmlspecialchars($presentation['student_names']); ?>
+                    </p>
+                    <div class="flex items-center text-gray-500">
+                        <i class="far fa-clock mr-2"></i>
+                        <span><?php echo date('H:i', strtotime($presentation['presentation_date'])); ?></span>
+                    </div>
+                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
 
-    <!-- Statistics Section amélioré -->
-    <section class="py-16 glass-card relative overflow-hidden" data-aos="fade-up">
-        <div class="card-shine"></div>
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center stats-counter">
-                <div class="text-5xl font-bold gradient-text mb-2">500+</div>
-                <div class="text-gray-300">Présentations réalisées</div>
-            </div>
-            <div class="text-center stats-counter" style="animation-delay: 0.2s">
-                <div class="text-5xl font-bold gradient-text mb-2">1000+</div>
-                <div class="text-gray-300">Étudiants actifs</div>
-            </div>
-            <div class="text-center stats-counter" style="animation-delay: 0.4s">
-                <div class="text-5xl font-bold gradient-text mb-2">50+</div>
-                <div class="text-gray-300">Technologies couvertes</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Calendar Section amélioré -->
-    <section id="calendar" class="container mx-auto mt-16 px-6">
-        <h3 class="text-4xl font-bold gradient-text text-center mb-12" data-aos="fade-up">
-            Prochaines Veilles
-        </h3>
-        <div class="grid md:grid-cols-3 gap-8">
-            <!-- Cartes avec nouveaux effets -->
-            <div class="glass-card p-8 rounded-xl shadow-lg hover-glow card-shine scale-hover" 
-                 data-aos="fade-up" data-aos-delay="100">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="text-3xl floating-element">🧠</div>
-                    <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">Nouveau</span>
-                </div>
-                <h4 class="text-xl font-semibold gradient-text mb-3">Intelligence Artificielle</h4>
-                <p class="text-gray-400 mb-4">Introduction aux concepts fondamentaux de l'IA et du Machine Learning</p>
-                <div class="flex items-center text-gray-500">
-                    <i class="far fa-calendar mr-2"></i>
-                    <span>12 Février 2025</span>
-                </div>
-            </div>
-            
-            <div class="glass-card p-8 rounded-xl shadow-lg hover-glow card-shine scale-hover" 
-                 data-aos="fade-up" data-aos-delay="200">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="text-3xl floating-element">🚀</div>
-                    <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">Populaire</span>
-                </div>
-                <h4 class="text-xl font-semibold gradient-text mb-3">DevOps et CI/CD</h4>
-                <p class="text-gray-400 mb-4">Automatisation et déploiement continu avec Docker et Jenkins</p>
-                <div class="flex items-center text-gray-500">
-                    <i class="far fa-calendar mr-2"></i>
-                    <span>15 Février 2025</span>
-                </div>
-            </div>
-
-            <div class="glass-card p-8 rounded-xl shadow-lg hover-glow card-shine scale-hover" 
-                 data-aos="fade-up" data-aos-delay="300">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="text-3xl floating-element">🔒</div>
-                    <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">Avancé</span>
-                </div>
-                <h4 class="text-xl font-semibold gradient-text mb-3">Cybersécurité</h4>
-                <p class="text-gray-400 mb-4">Sécurisation des applications web modernes</p>
-                <div class="flex items-center text-gray-500">
-                    <i class="far fa-calendar mr-2"></i>
-                    <span>18 Février 2025</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section amélioré -->
-    <section class="py-20 mt-16 hero-gradient relative overflow-hidden" data-aos="fade-up">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-600/50 to-blue-800/50 animate-pulse"></div>
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <h3 class="text-5xl font-bold text-white mb-8">Prêt à partager vos connaissances ?</h3>
-            <p class="text-2xl text-gray-200 mb-8">Rejoignez la communauté YouCode et participez à la prochaine session de veille</p>
-            <a href="#" class="px-8 py-4 bg-black text-white rounded-lg font-bold shadow-lg hover:bg-gray-900 transition transform hover:scale-105 hover-glow">
-                <i class="fas fa-paper-plane mr-2"></i>Proposer un sujet
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer amélioré -->
-    <footer class="glass-card py-12">
+    <!-- Footer moderne -->
+    <footer class="bg-[#0F172A] border-t border-gray-800 py-12">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                    <img src="https://www.youcode.ma/images/logo-youcode.png" alt="YouCode Logo" class="h-8">
+                <div class="flex items-center space-x-4 mb-6 md:mb-0">
+                    <img src="/public/assets/images/logo-youcode.png" alt="YouCode" class="h-10">
                     <span class="text-xl font-bold gradient-text">YouCode</span>
                 </div>
                 <div class="flex space-x-6">
-                    <a href="#" class="hover:text-blue-400 transition duration-300 transform hover:scale-110">
-                        <i class="fab fa-github text-2xl"></i>
-                    </a>
-                    <a href="#" class="hover:text-blue-400 transition duration-300 transform hover:scale-110">
-                        <i class="fab fa-linkedin text-2xl"></i>
-                    </a>
-                    <a href="#" class="hover:text-blue-400 transition duration-300 transform hover:scale-110">
-                        <i class="fab fa-twitter text-2xl"></i>
-                    </a>
+                    <!-- Icônes sociales avec effets hover -->
                 </div>
-            </div>
-            <div class="mt-8 text-center text-gray-400">
-                <p>&copy; 2025 Veille Pédagogique - YouCode. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 800,
-            once: false,
-            mirror: true
+        // Configuration Three.js
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Création des points 3D
+        const geometry = new THREE.BufferGeometry();
+        const points = [];
+        for(let i = 0; i < 1000; i++) {
+            points.push(
+                THREE.MathUtils.randFloatSpread(2000),
+                THREE.MathUtils.randFloatSpread(1000),
+                THREE.MathUtils.randFloatSpread(2000)
+            );
+        }
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+        const material = new THREE.PointsMaterial({ color: 0x2563eb, size: 2 });
+        const pointCloud = new THREE.Points(geometry, material);
+        scene.add(pointCloud);
+
+        camera.position.z = 1000;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            pointCloud.rotation.x += 0.001;
+            pointCloud.rotation.y += 0.001;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Effet de parallaxe
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.card-3d');
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cardX = (rect.left + rect.width / 2) / window.innerWidth - 0.5;
+                const cardY = (rect.top + rect.height / 2) / window.innerHeight - 0.5;
+
+                const angleX = (mouseY - cardY) * 20;
+                const angleY = (mouseX - cardX) * 20;
+
+                card.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+            });
         });
 
-        // Animation des particules
-        function createParticles() {
-            const icons = document.querySelectorAll('.particle');
-            icons.forEach(icon => {
-                const delay = Math.random() * 15;
-                const duration = 15 + Math.random() * 10;
-                icon.style.animationDelay = `${delay}s`;
-                icon.style.animationDuration = `${duration}s`;
-            });
-        }
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
 
-        createParticles();
+        // Configuration Particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: '#00ffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    out_mode: 'out'
+                }
+            }
+        });
     </script>
 </body>
 </html>

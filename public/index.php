@@ -50,6 +50,8 @@ Route::get('/Formateur/Showsubjects', [AdminController::class, 'ShowSubjects']);
 Route::get('/Formateur/calendar', [AdminController::class, 'ShowCalendar']);
 Route::post('/Formateur/schedule-presentation', [AdminController::class, 'SchedulePresentation']);
 
+Route::get('/Formateur/update-status/{id}/{status}', [AdminController::class, 'UpdatePresentationStatus']);
+
 
 
 
@@ -66,7 +68,9 @@ Route::get('/Etudiant/suggestions', [StudentController::class, 'ShowSuggestions'
 Route::get('/Etudiant/deleteSuggestion/{sujet_id}', [StudentController::class, 'DeleteSuggestion']);
 Route::post('/Etudiant/updateSuggestion', [StudentController::class, 'UpdateSuggestion']);
 Route::get('/Etudiant/presentations', [StudentController::class, 'ShowPresentations']);
+Route::get('/Etudiant/calendar-events', [StudentController::class, 'GetCalendarEvents']);
 
+Route::get('/Etudiant/calendar', [StudentController::class, 'ShowCalendar']);
 
 
 // Dispatch the request

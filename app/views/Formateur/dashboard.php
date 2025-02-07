@@ -1,42 +1,99 @@
+<?php
+$pageTitle = "Dashboard Formateur";
+$currentPage = 'dashboard';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Formateur - Veilles</title>
+    <title>Dashboard Formateur - YouCode</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Theme principal */
+        :root {
+            --primary: #2563EB;
+            --primary-light: #60A5FA;
+            --primary-dark: #1E40AF;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+        }
+
         /* Glassmorphism effect */
         .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        /* Gradient backgrounds */
-        .gradient-bg {
-            background: linear-gradient(120deg, #1a365d 0%, #2563eb 100%);
-        }
-
-        .hover-gradient:hover {
-            background: linear-gradient(120deg, #2563eb 0%, #1e40af 100%);
-        }
-
-        /* Card hover effects */
-        .stat-card {
+        /* Hover effects */
+        .hover-card {
             transition: all 0.3s ease;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        .hover-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.08);
+            border-color: rgba(37, 99, 235, 0.2);
+        }
+
+        /* Menu hover */
+        .menu-item {
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(37, 99, 235, 0.08);
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            filter: brightness(110%);
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
         }
 
         /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -44,91 +101,44 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #2563eb;
-            border-radius: 4px;
-        }
-
-        /* Animation for icons */
-        .animate-bounce-slow {
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Pulse effect for notifications */
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+            background: var(--primary-light);
+            border-radius: 3px;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 min-h-screen text-white">
+<body class="bg-gray-50">
     <!-- Sidebar -->
-    <div class="fixed inset-y-0 left-0 w-64 glass-card border-r border-blue-800/30">
+    <div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
         <div class="p-6">
-            <div class="flex items-center space-x-3">
-                <img src="https://www.youcode.ma/images/logo-youcode.png" alt="YouCode" class="h-10 animate-pulse">
-                <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-200">
-                    YouCode
+            <div class="flex items-center justify-center space-x-3">
+                <img src="https://intranet.youcode.ma/src/img/logo-white.png" 
+                     alt="YouCode" 
+                     class="h-8 w-auto"
+                     style="filter: brightness(0) invert(0);"
+                >
+                <span class="text-sm font-semibold text-gray-600">
+                    Veille
                 </span>
             </div>
         </div>
-        <nav class="mt-6">
-            <div class="px-4 py-2">
-                <span class="text-sm font-semibold text-blue-300">MENU PRINCIPAL</span>
-            </div>
-            <div class="px-4 py-4 space-y-2">
-                <a href="/Formateur/dashboard" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
-                    <i class="fas fa-home mr-3"></i>Dashboard
-                </a>
-                <a href="/Formateur/calendar" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
-                    <i class="fas fa-calendar-alt mr-3"></i>Planning
-                </a>
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
-                    <i class="fas fa-users mr-3"></i>Apprenants
-                </a>
-                <a href="/Formateur/valider_Suggestion" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
-                    <i class="fas fa-lightbulb mr-3"></i>Propositions
-                </a>
-                <a href="/Formateur/Showsubjects" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
-                    <i class="fas fa-tasks mr-3"></i>Attribution Sujets
-                    <!-- <span class="ml-auto bg-blue-500 text-xs px-2 py-1 rounded-full">Nouveau</span> -->
-                </a>
-                <a href="#" class="flex items-center px-4 py-3 rounded-lg hover-gradient transition-all duration-300">
-                    <i class="fas fa-chart-bar mr-3"></i>Statistiques
-                </a>
-                <a href="/logout" class="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg">
-                    <i class="fas fa-sign-out-alt mr-3"></i>Déconnexion
-                </a>
-            </div>
-        </nav>
+        <?php include __DIR__ . '/../components/Formateur_AsideBar.php'; ?>
     </div>
 
     <!-- Main Content -->
-    <div class="ml-64 p-8">
+    <div class="ml-64 p-8 animate-fade-in">
         <!-- Header -->
-        <div class="flex justify-between items-center mb-8 glass-card p-6 rounded-xl">
+        <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-sm">
             <div>
-                <h1 class="text-4xl font-bold mb-2 capitalize bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-200">
-                    Bonjour 👋 M.<?php echo $user_name ?>
-                </h1>
-                <p class="text-blue-300">Voici un aperçu des veilles d'aujourd'hui</p>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Bonjour 👋 M.<?php echo $user_name ?></h1>
+                <p class="text-gray-600">Voici un aperçu des veilles d'aujourd'hui</p>
             </div>
             <div class="flex items-center space-x-4">
-                <button class="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/25">
+                <button class="btn-primary rounded-lg px-6 py-3">
                     <i class="fas fa-plus mr-2"></i>Nouvelle Veille
                 </button>
                 <div class="relative">
-                    <span class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full pulse"></span>
-                    <img src="https://i.pravatar.cc/40" alt="Profile" class="w-12 h-12 rounded-full cursor-pointer border-2 border-blue-400 hover:border-blue-300 transition-colors shadow-lg">
+                    <span class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></span>
+                    <img src="https://intranet.youcode.ma/storage/users/profile/thumbnail/1154-1730909733.jpg" alt="Profile" class="w-10 h-10 rounded-full border-2 border-gray-200">
                 </div>
             </div>
         </div>
@@ -181,116 +191,26 @@
             </div>
         </div>
 
-        <!-- Prochaines Veilles -->
-        <div class="glass-card rounded-xl mb-8 overflow-hidden hover:bg-blue-900/10 transition-all duration-300">
-            <div class="p-6 border-b border-blue-800/30">
-                <h2 class="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-200">
-                    Prochaines Veilles
-                </h2>
-            </div>
-            <div class="p-6">
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-left text-blue-300">
-                                <th class="pb-4">Apprenant</th>
-                                <th class="pb-4">Sujet</th>
-                                <th class="pb-4">Date</th>
-                                <th class="pb-4">Status</th>
-                                <th class="pb-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-blue-800/30">
-                                <td class="py-4">
-                                    <div class="flex items-center">
-                                        <img src="https://i.pravatar.cc/40?img=1" alt="" 
-                                             class="w-10 h-10 rounded-full mr-3 border-2 border-blue-400">
-                                        <span>Ahmed Benali</span>
-                                    </div>
-                                </td>
-                                <td class="py-4">GraphQL vs REST</td>
-                                <td class="py-4">14 Mars, 14:00</td>
-                                <td class="py-4">
-                                    <span class="bg-green-500/20 text-green-400 px-4 py-1 rounded-full text-sm">
-                                        Confirmé
-                                    </span>
-                                </td>
-                                <td class="py-4">
-                                    <div class="flex space-x-2">
-                                        <button class="p-2 hover:bg-blue-500/20 rounded-lg transition-colors">
-                                            <i class="fas fa-edit text-blue-400"></i>
-                                        </button>
-                                        <button class="p-2 hover:bg-red-500/20 rounded-lg transition-colors">
-                                            <i class="fas fa-trash text-red-400"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Propositions de Veilles -->
-        <div class="glass-card rounded-xl hover:bg-blue-900/10 transition-all duration-300">
-            <div class="p-6 border-b border-blue-800/30">
-                <h2 class="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-200">
-                    Propositions de Veilles
-                </h2>
-            </div>
-            <div class="p-6">
-                <div class="space-y-4">
-                    <div class="glass-card p-4 rounded-xl hover:bg-blue-900/30 transition-colors">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-4">
-                                <img src="https://i.pravatar.cc/40?img=2" alt="" 
-                                     class="w-12 h-12 rounded-full border-2 border-blue-400">
-                                <div>
-                                    <h3 class="font-semibold text-lg">Machine Learning Basics</h3>
-                                    <p class="text-blue-300">Proposé par Amina Alaoui</p>
-                                </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="bg-green-500/20 text-green-400 px-4 py-2 rounded-lg hover:bg-green-500/30 transition-colors">
-                                    Approuver
-                                </button>
-                                <button class="bg-red-500/20 text-red-400 px-4 py-2 rounded-lg hover:bg-red-500/30 transition-colors">
-                                    Refuser
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Liste des Apprenants -->
         <div class="glass-card rounded-xl mb-8 overflow-hidden hover:bg-blue-900/10 transition-all duration-300">
-            <div class="p-6 border-b border-blue-800/30 flex justify-between items-center">
-                <h2 class="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-200">
-                    Liste des Apprenants
-                </h2>
-                <div class="flex gap-4">
-                    <div class="relative">
-                        <input type="text" 
-                               placeholder="Rechercher un apprenant..." 
-                               class="bg-blue-900/20 border border-blue-800/30 rounded-lg px-4 py-2 text-white placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <i class="fas fa-search absolute right-3 top-3 text-blue-400"></i>
+           
+            <div class="relative p-8 border-b border-blue-800/30">
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
+                <div class="relative flex justify-between items-center">
+                    <h2 class="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-200">
+                        Liste des Apprenants
+                    </h2>
+                    <div class="bg-blue-500/10 p-3 rounded-lg">
+                        <i class="fas fa-users text-blue-400 text-2xl"></i>
                     </div>
-                    <select class="bg-blue-900/20 border border-blue-800/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Tous les groupes</option>
-                        <option value="ada">ADA LOVELACE</option>
-                        <option value="turing">ALAN TURING</option>
-                    </select>
                 </div>
             </div>
+
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <?php foreach ($apprenants as $apprenant): ?>
-                    <div class="glass-card p-4 rounded-xl hover:bg-blue-900/30 transition-all duration-300 flex items-start space-x-4">
-                        <img src="<?php echo 'https://i.pravatar.cc/100' ?>" 
+                    <div class="glass-card p-4 rounded-xl flex items-start space-x-4">
+                        <img src="https://intranet.youcode.ma/storage/users/profile/thumbnail/1176-1730909420.jpg" 
                              alt="<?php echo $apprenant['nom'] ?>" 
                              class="w-16 h-16 rounded-full border-2 <?php echo $apprenant['status'] === 'active' ? 'border-green-400' : 'border-red-400' ?>">
                         <div class="flex-1">
@@ -300,7 +220,7 @@
                                     <p class="text-blue-300 text-sm"><?php echo $apprenant['email'] ?></p>
                                 </div>
                                 <!-- Status Badge -->
-                                <span >
+                                <span class="status-badge status-active">
                                     <?php echo $apprenant['status'] ?>
                                 </span>
                             </div>
@@ -326,10 +246,12 @@
                 <!-- Pagination -->
                 <div class="mt-6 flex justify-center">
                     <div class="flex space-x-2">
-                        <a href="?page=<?php echo $currentPage - 1 ?>" class="px-4 py-2 rounded-lg glass-card hover:bg-blue-900/30 transition-colors <?php echo $currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : '' ?>">
+                        <a href="?page=<?php echo $currentPage - 1 ?>" 
+                           class="px-4 py-2 rounded-lg glass-card hover:bg-blue-900/30 transition-colors <?php echo $currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : '' ?>">
                             <i class="fas fa-chevron-left mr-2"></i>Précédent
                         </a>
-                        <a href="?page=<?php echo $currentPage + 1 ?>" class="px-4 py-2 rounded-lg glass-card hover:bg-blue-900/30 transition-colors <?php echo $currentPage >= $totalPages ? 'opacity-50 cursor-not-allowed' : '' ?>">
+                        <a href="?page=<?php echo $currentPage + 1 ?>" 
+                           class="px-4 py-2 rounded-lg glass-card hover:bg-blue-900/30 transition-colors <?php echo $currentPage >= $totalPages ? 'opacity-50 cursor-not-allowed' : '' ?>">
                             Suivant<i class="fas fa-chevron-right ml-2"></i>
                         </a>
                     </div>
@@ -337,18 +259,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Add a subtle animation for page load -->
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .ml-64 {
-            animation: fadeIn 0.5s ease-out;
-        }
-    </style>
 
     <script>
         // Simple JavaScript for interactivity

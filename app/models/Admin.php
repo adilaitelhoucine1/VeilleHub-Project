@@ -174,13 +174,17 @@ public function assignStudentsToSubject($sujet_id, $student_ids) {
 
 public function GetScheduledPresentations() {
     try {
-        $sql = "SELECT p.*, s.titre, 
+        $sql = "SELECT 
+                p.id_presentation,
+                p.presentation_date,
+                p.status,
+                s.titre,
                 GROUP_CONCAT(u.nom SEPARATOR ', ') as student_names
                 FROM presentations p
                 JOIN sujet s ON p.sujet_id = s.id_sujet
                 JOIN subject_assignments sa ON s.id_sujet = sa.sujet_id
                 JOIN user u ON sa.student_id = u.id_user
-                GROUP BY p.id_presentation
+                GROUP BY p.id_presentation, p.presentation_date, p.status, s.titre
                 ORDER BY p.presentation_date ASC";
                 
         $stmt = $this->conn->prepare($sql);
@@ -222,6 +226,14 @@ public function SchedulePresentation($sujet_id, $presentation_datetime) {
         error_log("Erreur lors de la programmation de la présentation : " . $e->getMessage());
         return false;
     }
+}
+
+public function UpdatePresentationStatus($presentation_id, $status) {
+
+        $sql = "UPDATE presentations SET status = ? WHERE id_presentation = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$status, $presentation_id]);
+  
 }
 }
 
