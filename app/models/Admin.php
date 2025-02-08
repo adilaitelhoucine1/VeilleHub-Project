@@ -13,16 +13,44 @@ public function GetAllStudents() {
     $stmt->execute();
     return $stmt->fetchAll();
 }
-public function DeleteUser($user_id){
-    try {
-        $sqldelete = "DELETE FROM user WHERE id_user = ?";
-        $stmtdelete = $this->conn->prepare($sqldelete);
-        $result = $stmtdelete->execute([$user_id]);
-        return $result;
-    } catch(PDOException $e) {
-        error_log("Erreur de suppression : " . $e->getMessage());
-        return false;
-    }
+public function DeleteUser($user_id) {
+
+        $this->conn->beginTransaction();
+
+
+        $sqlDeletePresentations = "DELETE FROM presentations 
+                                 WHERE sujet_id IN (
+                                     SELECT id_sujet 
+                                     FROM sujet 
+                                     WHERE id_student = ?
+                                 )";
+        $stmtDeletePresentations = $this->conn->prepare($sqlDeletePresentations);
+        $stmtDeletePresentations->execute([$user_id]);
+
+        
+        $sqlDeleteAssignments = "DELETE FROM subject_assignments 
+                               WHERE student_id = ? 
+                               OR sujet_id IN (
+                                   SELECT id_sujet 
+                                   FROM sujet 
+                                   WHERE id_student = ?
+                               )";
+        $stmtDeleteAssignments = $this->conn->prepare($sqlDeleteAssignments);
+        $stmtDeleteAssignments->execute([$user_id, $user_id]);
+
+     
+        $sqlDeleteSujets = "DELETE FROM sujet 
+                           WHERE id_student = ?";
+        $stmtDeleteSujets = $this->conn->prepare($sqlDeleteSujets);
+        $stmtDeleteSujets->execute([$user_id]);
+
+        $sqlDeleteUser = "DELETE FROM user 
+                         WHERE id_user = ?";
+        $stmtDeleteUser = $this->conn->prepare($sqlDeleteUser);
+        $stmtDeleteUser->execute([$user_id]);
+
+        $this->conn->commit();
+        return true;
 }
 public function ChangerStatus($user_id) {
     try {

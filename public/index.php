@@ -29,6 +29,8 @@ Route::post('/login', [AuthController::class, 'handleLogin']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/reset-password', [HomeController::class, 'resetPassword']);
+Route::post('/reset-password', [HomeController::class, 'resetPassword']);
 
 // admin routers
 
@@ -52,9 +54,7 @@ Route::post('/Formateur/schedule-presentation', [AdminController::class, 'Schedu
 
 Route::get('/Formateur/update-status/{id}/{status}', [AdminController::class, 'UpdatePresentationStatus']);
 
-
-
-
+Route::get('/calendar', [HomeController::class, 'showCalendar']);
 
 
 

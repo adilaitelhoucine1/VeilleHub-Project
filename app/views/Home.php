@@ -6,468 +6,298 @@
     <title>YouCode Innovation Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .innovation-bg {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        }
-
-        .tech-lines {
-            background-image: linear-gradient(rgba(37, 99, 235, 0.1) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(37, 99, 235, 0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            background-position: center center;
-        }
-
-        .gradient-text {
-            background: linear-gradient(45deg, #2563eb, #3b82f6, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .card-3d {
-            transition: all 0.5s ease;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(37, 99, 235, 0.2);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
-        }
-
-        .card-3d:hover {
-            transform: translateY(-10px) rotateX(10deg) rotateY(10deg);
-            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
-            border-color: rgba(37, 99, 235, 0.4);
-        }
-
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .shine-effect {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .shine-effect::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.8) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        #canvas-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
         .glass-effect {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(37, 99, 235, 0.2);
+            -webkit-backdrop-filter: blur(10px);
         }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #2563eb, #3b82f6);
-            transition: all 0.3s ease;
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
-
-        .gradient-bg {
-            background: linear-gradient(120deg, #FF0080, #7928CA);
-        }
-
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-pattern {
-            background-color: #0F172A;
-            background-image: radial-gradient(circle at 1px 1px, #FF0080 1px, transparent 0);
-            background-size: 40px 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-pattern::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7));
-        }
-
-        .card-hover {
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .card-hover:hover {
-            transform: translateY(-5px);
-            border-color: #FF0080;
-            box-shadow: 0 10px 30px rgba(255, 0, 128, 0.2);
-        }
-
-        .animated-gradient {
-            background: linear-gradient(-45deg, #FF0080, #7928CA, #00DFD8, #007CF0);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .custom-shape {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-        }
-
-        .custom-shape svg {
-            position: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 150px;
-        }
-
-        .custom-shape .shape-fill {
-            fill: #FFFFFF;
-        }
-
-        .neon-border {
-            position: relative;
-            border: 1px solid transparent;
-            background-clip: padding-box;
-        }
-
-        .neon-border::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            margin: -2px;
-            border-radius: inherit;
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-            z-index: -1;
-        }
-
-        .floating-3d {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        .card-3d {
-            transition: transform 0.5s;
-            transform-style: preserve-3d;
-        }
-
-        .card-3d:hover {
-            transform: rotateY(10deg) rotateX(10deg);
-        }
-
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .cyber-button {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .cyber-button::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            top: 0;
-            left: -100%;
-            transition: 0.5s;
-        }
-
-        .cyber-button:hover::before {
-            left: 100%;
-        }
-
-        .hologram {
-            position: relative;
-        }
-
-        .hologram::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 255, 255, 0.1) 0px,
-                rgba(0, 255, 255, 0.1) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            pointer-events: none;
-            animation: scan 3s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        .matrix-text {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .matrix-text::before {
-            content: attr(data-text);
-            position: absolute;
-            left: -2px;
-            text-shadow: 2px 0 #00ffff;
-            background: #000;
-            overflow: hidden;
-            animation: noise-1 3s linear infinite alternate;
-        }
-
-        @keyframes noise-1 {
-            0%, 3%, 5%, 42%, 44%, 100% { opacity: 1; transform: scaleY(1); }
-            4.3% { opacity: 1; transform: scaleY(1.7); }
-            43% { opacity: 1; transform: scaleX(1.5); }
+        .gradient-border {
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(to right, #818CF8, #EC4899) border-box;
+            border: 2px solid transparent;
         }
     </style>
 </head>
-<body class="innovation-bg text-gray-800">
-    <div id="canvas-container"></div>
-    <div id="particles-js"></div>
+<body class="font-[Poppins] bg-gradient-to-b from-indigo-50 to-white text-gray-800">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div id="particles-js"></div>
+        </div>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-effect">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <img src="/public/assets/images/logo-youcode.png" alt="YouCode" class="h-12 floating">
-                    <span class="text-2xl font-bold gradient-text">YouCode</span>
-                </div>
-                <div class="flex items-center space-x-8">
-                    <a href="#calendar" class="text-gray-600 hover:text-blue-600 transition-colors">
-                        <i class="fas fa-calendar-alt mr-2"></i>Calendrier
-                    </a>
-                    <a href="/login" class="text-gray-600 hover:text-blue-600 transition-colors">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Connexion
-                    </a>
-                    <a href="/register" class="btn-primary px-6 py-2 text-white rounded-lg shine-effect">
-                        <i class="fas fa-user-plus mr-2"></i>Inscription
-                    </a>
+        <!-- Navigation -->
+        <nav class="relative z-10 px-6 py-4">
+            <div class="container mx-auto">
+                <div class="glass-effect rounded-2xl px-6 py-3 flex justify-between items-center shadow-lg">
+                    <div class="flex items-center space-x-8">
+                        <!-- Logo -->
+                        <div class="flex items-center space-x-3">
+                            <img src="https://intranet.youcode.ma/src/img/logo-white.png" 
+                                 alt="YouCode" 
+                                 class="h-8 w-auto"
+                                 style="filter: brightness(0);"
+                            >
+                            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text">
+                                Veille
+                            </span>
+                        </div>
+                        
+                        <!-- Navigation Links -->
+                        <div class="hidden md:flex items-center space-x-6">
+                            <a href="/" class="text-gray-700 hover:text-blue-600 transition-colors">
+                                Accueil
+                            </a>
+                            <a href="/calendar" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors">
+                                <i class="far fa-calendar-alt"></i>
+                                <span>Calendrier</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Auth Buttons -->
+                    <div class="flex gap-4">
+                        <a href="/login" class="px-6 py-2 rounded-full border-2 border-blue-500/20 hover:border-blue-500 
+                                             text-gray-700 hover:text-blue-600 transition-all hover:shadow-lg">
+                            Connexion
+                        </a>
+                        <a href="/register" class="px-6 py-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 
+                                                text-white hover:from-blue-700 hover:to-blue-500 transition-all 
+                                                shadow-lg hover:shadow-blue-500/25">
+                            Inscription
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Hero Section -->
-    <section class="min-h-screen relative flex items-center justify-center tech-lines">
-        <div class="container mx-auto px-6 py-20 relative z-10">
-            <div class="text-center max-w-4xl mx-auto" data-aos="fade-up">
-                <h1 class="text-6xl font-bold mb-8 gradient-text">
-                    Innovez avec YouCode
+        <!-- Hero Content -->
+        <div class="relative z-10 container mx-auto px-6 pt-20 pb-32">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="mb-8 animate-float">
+                    <img src="https://intranet.youcode.ma/src/img/logo-white.png" 
+                         alt="YouCode" 
+                         class="h-20 w-auto mx-auto"
+                         style="filter: brightness(0);"
+                    >
+                </div>
+                <h1 class="text-5xl md:text-6xl font-bold mb-8">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500">
+                        Innovation Hub
+                    </span>
                 </h1>
                 <p class="text-xl text-gray-600 mb-12">
-                    Découvrez une nouvelle façon d'apprendre et de partager vos connaissances
+                    Plateforme de présentation de projets innovants pour les étudiants de YouCode
                 </p>
-                <div class="flex justify-center gap-8">
-                    <a href="#register" class="btn-primary px-8 py-4 text-white rounded-lg shine-effect">
-                        Commencer l'aventure
+                <div class="flex justify-center gap-6">
+                    <a href="/register" class="px-8 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:from-indigo-600 hover:to-pink-600 transition-all transform hover:scale-105 duration-300 shadow-lg hover:shadow-pink-500/25">
+                        Commencer maintenant
                     </a>
-                    <a href="#calendar" class="px-8 py-4 glass-effect rounded-lg hover:shadow-lg transition-all">
-                        Explorer le planning
+                    <a href="#calendar" class="px-8 py-3 rounded-xl gradient-border hover:shadow-lg transition-all transform hover:scale-105 duration-300 text-gray-700 hover:text-gray-900">
+                        Voir le calendrier
                     </a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Features Section -->
-    <section class="py-20 bg-white relative">
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="card-3d p-8 rounded-xl" data-aos="fade-up">
-                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-calendar-alt text-2xl text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Calendrier Interactif</h3>
-                    <p class="text-gray-600">
-                        Consultez et gérez facilement les présentations à venir
-                    </p>
-                </div>
-                <!-- Autres cartes similaires -->
+    <!-- Upcoming Presentations Section -->
+    <section id="calendar" class="py-20 bg-white relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-transparent"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM0I4MkY2IiBzdHJva2Utd2lkdGg9IjAuMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-10"></div>
+
+        <div class="container mx-auto px-6 relative">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">
+                        Présentations à venir
+                    </span>
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mb-8">
+                    Découvrez les prochaines présentations de projets innovants par nos étudiants
+                </p>
+                
+                <!-- Calendar Navigation Button -->
+                <a href="/calendar" class="inline-flex items-center px-6 py-3 bg-blue-50 text-blue-600 
+                                        rounded-xl hover:bg-blue-100 transition-all group mb-12">
+                    <i class="far fa-calendar-alt mr-2"></i>
+                    <span class="font-medium">Voir le calendrier complet</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </a>
             </div>
-        </div>
-    </section>
-
-    <!-- Calendar Section -->
-    <section id="calendar" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 gradient-text">
-                Prochaines Présentations
-            </h2>
-            <div class="grid md:grid-cols-3 gap-8">
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <?php foreach($presentations as $presentation): ?>
-                <div class="card-3d p-6 rounded-xl bg-white" data-aos="fade-up">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-gray-800">
-                            <?php echo htmlspecialchars($presentation['titre']); ?>
-                        </h3>
-                        <span class="px-4 py-1 rounded-full gradient-bg text-white text-sm">
-                            <?php echo date('d/m', strtotime($presentation['presentation_date'])); ?>
-                        </span>
+                    <div class="group">
+                        <div class="bg-white p-6 rounded-2xl transition-all duration-300 
+                                    shadow-[0_0_0_1px_rgba(59,130,246,0.1)] 
+                                    hover:shadow-[0_0_0_1px_rgba(59,130,246,0.2),0_8px_20px_-4px_rgba(59,130,246,0.1)]
+                                    relative overflow-hidden">
+                            <!-- Decorative elements -->
+                            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full"></div>
+                            
+                            <div class="flex justify-between items-start mb-6 relative">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-3">
+                                        <div class="w-2 h-2 rounded-full bg-blue-500 mr-2"></div>
+                                        <span class="text-blue-500 text-sm font-medium">
+                                            <?php echo date('H:i', strtotime($presentation['presentation_date'])); ?>
+                                        </span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors">
+                                        <?php echo htmlspecialchars($presentation['titre']); ?>
+                                    </h3>
+                                    <div class="flex items-center text-gray-600 text-sm">
+                                        <i class="fas fa-users mr-2 text-blue-400"></i>
+                                        <p><?php echo htmlspecialchars($presentation['student_names']); ?></p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-medium
+                                               group-hover:bg-blue-100 transition-colors">
+                                        <?php echo date('d M', strtotime($presentation['presentation_date'])); ?>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Bottom action -->
+                            <div class="pt-4 mt-4 border-t border-gray-100">
+                                <a href="#" class="flex items-center justify-center text-blue-500 hover:text-blue-600 transition-colors">
+                                    <span class="text-sm font-medium">Voir les détails</span>
+                                    <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-gray-600 mb-4">
-                        <?php echo htmlspecialchars($presentation['student_names']); ?>
-                    </p>
-                    <div class="flex items-center text-gray-500">
-                        <i class="far fa-clock mr-2"></i>
-                        <span><?php echo date('H:i', strtotime($presentation['presentation_date'])); ?></span>
-                    </div>
-                </div>
                 <?php endforeach; ?>
             </div>
+
+            <!-- Bottom CTA -->
+            <div class="mt-16 text-center">
+                <a href="/register" class="inline-flex items-center px-6 py-3 bg-blue-500 text-white rounded-xl
+                                        hover:bg-blue-600 transition-all transform hover:scale-105 duration-300
+                                        shadow-lg hover:shadow-blue-500/25">
+                    <span class="font-medium">Rejoignez la communauté</span>
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- Footer moderne -->
-    <footer class="bg-[#0F172A] border-t border-gray-800 py-12">
+    <!-- Registration Section -->
+    <section class="py-20 bg-indigo-50">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-4 mb-6 md:mb-0">
-                    <img src="/public/assets/images/logo-youcode.png" alt="YouCode" class="h-10">
-                    <span class="text-xl font-bold gradient-text">YouCode</span>
+            <h2 class="text-3xl font-bold mb-16 text-center">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500">
+                    Rejoignez la communauté
+                </span>
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Student Card -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all group">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-200 transition-all">
+                        <i class="fas fa-user-graduate text-2xl text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Étudiant</h3>
+                    <p class="text-gray-600 mb-8">
+                        Partagez vos projets innovants et développez vos compétences en présentation
+                    </p>
+                    <a href="/register?role=student" class="block w-full py-3 text-center rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:from-indigo-600 hover:to-pink-600 transition-all">
+                        Inscription Étudiant
+                    </a>
                 </div>
-                <div class="flex space-x-6">
-                    <!-- Icônes sociales avec effets hover -->
+
+                <!-- Teacher Card -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all group">
+                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-pink-200 transition-all">
+                        <i class="fas fa-chalkboard-teacher text-2xl text-pink-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Formateur</h3>
+                    <p class="text-gray-600 mb-8">
+                        Encadrez les projets et évaluez les présentations des étudiants
+                    </p>
+                    <a href="/register?role=teacher" class="block w-full py-3 text-center rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:from-indigo-600 hover:to-pink-600 transition-all">
+                        Inscription Formateur
+                    </a>
                 </div>
             </div>
         </div>
-    </footer>
+    </section>
 
+    <!-- Password Reset Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Mot de passe oublié ?</h2>
+                <form action="/reset-password" method="POST">
+                    <div class="mb-6">
+                        <input type="email" name="email" placeholder="Votre adresse email" 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 outline-none">
+                    </div>
+                    <button type="submit" 
+                            class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:from-indigo-600 hover:to-pink-600 transition-all">
+                        Réinitialiser le mot de passe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
-        // Configuration Three.js
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-        // Création des points 3D
-        const geometry = new THREE.BufferGeometry();
-        const points = [];
-        for(let i = 0; i < 1000; i++) {
-            points.push(
-                THREE.MathUtils.randFloatSpread(2000),
-                THREE.MathUtils.randFloatSpread(1000),
-                THREE.MathUtils.randFloatSpread(2000)
-            );
-        }
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
-        const material = new THREE.PointsMaterial({ color: 0x2563eb, size: 2 });
-        const pointCloud = new THREE.Points(geometry, material);
-        scene.add(pointCloud);
-
-        camera.position.z = 1000;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            pointCloud.rotation.x += 0.001;
-            pointCloud.rotation.y += 0.001;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // Effet de parallaxe
-        document.addEventListener('mousemove', (e) => {
-            const cards = document.querySelectorAll('.card-3d');
-            const mouseX = e.clientX / window.innerWidth - 0.5;
-            const mouseY = e.clientY / window.innerHeight - 0.5;
-
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                const cardX = (rect.left + rect.width / 2) / window.innerWidth - 0.5;
-                const cardY = (rect.top + rect.height / 2) / window.innerHeight - 0.5;
-
-                const angleX = (mouseY - cardY) * 20;
-                const angleY = (mouseX - cardX) * 20;
-
-                card.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
-            });
-        });
-
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-
-        // Configuration Particles.js
         particlesJS('particles-js', {
             particles: {
-                number: { value: 80 },
-                color: { value: '#00ffff' },
+                number: { value: 100 },
+                color: { value: '#818CF8' },
                 shape: { type: 'circle' },
-                opacity: { value: 0.5 },
-                size: { value: 3 },
+                opacity: { 
+                    value: 0.3,
+                    random: true
+                },
+                size: { 
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#818CF8',
+                    opacity: 0.2,
+                    width: 1
+                },
                 move: {
                     enable: true,
                     speed: 2,
-                    direction: 'none',
+                    direction: "none",
                     random: true,
-                    out_mode: 'out'
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "repulse"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
                 }
             }
         });

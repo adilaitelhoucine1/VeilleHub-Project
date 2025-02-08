@@ -1,15 +1,36 @@
 <?php 
 
 class HomeController extends BaseController {
+    private $UserModel;
 
-   public function index() {
-      // Check if the user is logged in
-      if(isset($_SESSION['user_loged_in_id'])){
-         header("Location: /admin/dashboard");
-         exit;
-      }
-      // Render the homepage for visitors
-      $this->render('home');
-   }
+    public function __construct() {
+        $this->UserModel = new User();
+    }
 
+    public function index() {
+        // Récupérer les présentations à venir (publiques)
+        $presentations = $this->UserModel->getUpcomingPresentations();
+        $this->render('home', ['presentations' => $presentations]);
+    }
+
+    public function resetPassword() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'];
+            $result = $this->UserModel->sendResetPasswordLink($email);
+            
+            if ($result) {
+                $_SESSION['success'] = "Un email de réinitialisation a été envoyé.";
+            } else {
+                $_SESSION['error'] = "Email non trouvé.";
+            }
+            header('Location: /reset-password');
+            exit();
+        }
+        $this->render('auth/reset-password');
+    }
+
+    public function showCalendar() {
+        $presentations = $this->UserModel->getAllPresentations();
+        $this->render('calendar', ['presentations' => $presentations]);
+    }
 }

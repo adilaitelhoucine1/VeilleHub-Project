@@ -133,9 +133,7 @@ $currentPage = 'dashboard';
                 <p class="text-gray-600">Voici un aperçu des veilles d'aujourd'hui</p>
             </div>
             <div class="flex items-center space-x-4">
-                <button class="btn-primary rounded-lg px-6 py-3">
-                    <i class="fas fa-plus mr-2"></i>Nouvelle Veille
-                </button>
+               
                 <div class="relative">
                     <span class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></span>
                     <img src="https://intranet.youcode.ma/storage/users/profile/thumbnail/1154-1730909733.jpg" alt="Profile" class="w-10 h-10 rounded-full border-2 border-gray-200">
