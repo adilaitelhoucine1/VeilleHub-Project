@@ -1,7 +1,7 @@
 <?php
-session_start();
-
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once ('../core/BaseController.php');
 require_once '../core/Router.php';
@@ -75,6 +75,17 @@ Route::get('/Etudiant/ranking', [StudentController::class, 'GetRanking']);
 
 // Ajouter cette nouvelle route pour les statistiques
 Route::get('/Etudiant/statistics', [StudentController::class, 'ShowStatistics']);
+
+// Test SMTP (à retirer après les tests)
+Route::get('/test-email', function() {
+    $user = new User();
+    if ($user->testEmail()) {
+        echo "Email de test envoyé avec succès. Vérifiez les logs pour plus de détails.";
+    } else {
+        echo "Échec de l'envoi de l'email. Vérifiez les logs pour plus de détails.";
+    }
+    exit;
+});
 
 // Dispatch the request
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

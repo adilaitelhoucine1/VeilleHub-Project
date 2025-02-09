@@ -1,5 +1,13 @@
 <?php 
 require_once(__DIR__.'/../config/db.php');
+require_once(__DIR__.'/../../vendor/phpmailer/phpmailer/src/PHPMailer.php');
+require_once(__DIR__.'/../../vendor/phpmailer/phpmailer/src/SMTP.php');
+require_once(__DIR__.'/../../vendor/phpmailer/phpmailer/src/Exception.php');
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 class User extends Db {
 
 public function __construct()
@@ -61,26 +69,118 @@ public function getUpcomingPresentations() {
     }
 }
 
+private const SMTP_HOST = 'smtp.gmail.com';
+private const SMTP_USERNAME = 'adil.ait.2003@gmail.com';
+private const SMTP_PASSWORD = 'xfww qwxp yvxm aqxm';
+private const SMTP_PORT = 587;
+private const SMTP_FROM_NAME = 'YouCode Innovation Hub';
+
+private function sendEmail($to, $subject, $body) {
+    try {
+        error_log("=== DÉBUT ENVOI EMAIL ===");
+        
+        $mail = new PHPMailer(true);
+        
+        // Configuration de base
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        
+        // Vos identifiants Gmail
+        $mail->Username = 'adil.ait.2003@gmail.com';
+        $mail->Password = 'rnvw aqxm xfww qwxp'; // Votre mot de passe d'application Gmail
+        
+        // Configuration TLS
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+        
+        // Activer le debug
+        $mail->SMTPDebug = 2;
+        $mail->Debugoutput = function($str, $level) {
+            error_log("SMTP DEBUG: " . $str);
+        };
+        
+        // Configuration de l'email
+        $mail->setFrom($mail->Username, 'YouCode Innovation Hub');
+        $mail->addAddress($to);
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+        
+        // Contenu
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        
+        // Tentative d'envoi
+        if(!$mail->send()) {
+            error_log("Erreur SMTP : " . $mail->ErrorInfo);
+            return false;
+        }
+        
+        error_log("Email envoyé avec succès");
+        return true;
+        
+    } catch (Exception $e) {
+        error_log("Exception SMTP : " . $e->getMessage());
+        return false;
+    }
+}
+
 public function sendResetPasswordLink($email) {
     try {
+        error_log("=== DÉBUT SEND RESET PASSWORD LINK ===");
+        
+        // Vérifier la structure de la table
+        $checkTable = $this->conn->query("SHOW COLUMNS FROM user LIKE 'reset_token'");
+        if ($checkTable->rowCount() === 0) {
+            error_log("Colonnes manquantes dans la table user. Tentative d'ajout...");
+            $this->conn->exec("
+                ALTER TABLE user 
+                ADD COLUMN IF NOT EXISTS reset_token VARCHAR(64) DEFAULT NULL,
+                ADD COLUMN IF NOT EXISTS reset_expiry DATETIME DEFAULT NULL
+            ");
+        }
+        
         $sql = "SELECT id_user FROM user WHERE email = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$email]);
         
         if ($stmt->rowCount() > 0) {
+            error_log("Utilisateur trouvé pour l'email : " . $email);
+            
             $token = bin2hex(random_bytes(32));
             $expiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
             
+            // Mise à jour du token
             $sql = "UPDATE user SET reset_token = ?, reset_expiry = ? WHERE email = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$token, $expiry, $email]);
+            error_log("Token mis à jour dans la base de données");
             
-            // Envoyer l'email (à implémenter selon votre système d'envoi d'emails)
-            return true;
+            $resetLink = "http://" . $_SERVER['HTTP_HOST'] . "/reset-password?token=" . $token;
+            
+            $subject = "Réinitialisation de votre mot de passe - YouCode Innovation Hub";
+            $body = "
+                <h2>Réinitialisation de votre mot de passe</h2>
+                <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
+                <p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :</p>
+                <p><a href='{$resetLink}'>Réinitialiser mon mot de passe</a></p>
+                <p>Ce lien expirera dans 1 heure.</p>
+            ";
+            
+            error_log("Tentative d'envoi de l'email...");
+            $result = $this->sendEmail($email, $subject, $body);
+            error_log("Résultat de l'envoi : " . ($result ? "Succès" : "Échec"));
+            
+            error_log("=== FIN SEND RESET PASSWORD LINK ===");
+            return $result;
         }
+        
+        error_log("Aucun utilisateur trouvé pour l'email : " . $email);
         return false;
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
+        
+    } catch (Exception $e) {
+        error_log("ERREUR dans sendResetPasswordLink : " . $e->getMessage());
+        error_log($e->getTraceAsString());
         return false;
     }
 }
@@ -103,6 +203,44 @@ public function getAllPresentations() {
     } catch (PDOException $e) {
         error_log($e->getMessage());
         return [];
+    }
+}
+
+// Méthode de test
+public function testEmail() {
+    try {
+        error_log("=== DÉBUT TEST EMAIL ===");
+        return $this->sendEmail(
+            'adil.ait.2003@gmail.com',
+            'Test Email YouCode',
+            '<h1>Test de configuration SMTP</h1><p>Ceci est un test envoyé le ' . date('Y-m-d H:i:s') . '</p>'
+        );
+    } catch (Exception $e) {
+        error_log("Erreur test email : " . $e->getMessage());
+        return false;
+    }
+}
+
+public function checkEmailExists($email) {
+    try {
+        $sql = "SELECT COUNT(*) FROM user WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$email]);
+        return $stmt->fetchColumn() > 0;
+    } catch (PDOException $e) {
+        error_log("Erreur lors de la vérification de l'email : " . $e->getMessage());
+        return false;
+    }
+}
+
+public function saveResetToken($email, $token, $expiry) {
+    try {
+        $sql = "UPDATE user SET reset_token = ?, reset_expiry = ? WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$token, $expiry, $email]);
+    } catch (PDOException $e) {
+        error_log("Erreur lors de la sauvegarde du token : " . $e->getMessage());
+        return false;
     }
 }
 

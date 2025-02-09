@@ -240,6 +240,26 @@
         <div class="container mx-auto px-6">
             <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
                 <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Mot de passe oublié ?</h2>
+                
+                <!-- Ajout des messages d'erreur/succès -->
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="mb-4 p-4 bg-red-50 text-red-600 rounded-xl">
+                        <?php 
+                        echo $_SESSION['error'];
+                        unset($_SESSION['error']);
+                        ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="mb-4 p-4 bg-green-50 text-green-600 rounded-xl">
+                        <?php 
+                        echo $_SESSION['success'];
+                        unset($_SESSION['success']);
+                        ?>
+                    </div>
+                <?php endif; ?>
+                
                 <form action="/reset-password" method="POST">
                     <div class="mb-6">
                         <input type="email" name="email" placeholder="Votre adresse email" 
