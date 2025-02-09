@@ -78,5 +78,87 @@ public function GetCalendarEvents($user_id) {
         return [];
     }
 }
+public function GetRanking() {
+    try {
+        $sql = "SELECT u.nom , 
+        COUNT(p.id_presentation) as 
+        'total_presentation' FROM user 
+        u JOIN  sujet s ON s.id_student =u.id_user 
+         JOIN presentations p ON p.sujet_id = s.id_sujet where u.role =Apprenant' 
+          GROUP BY u.nom ORDER by total_presentationLIMIT 10";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (empty($results)) {
+            return [];
+        }
+        
+        // Calculer les points totaux et ajouter l'URL complète de l'image
+        foreach ($results as &$result) {
+            $result['presentations_count'] = (int)$result['presentations_count'];
+            $result['suggestions_count'] = (int)$result['suggestions_count'];
+            $result['total_points'] = ($result['presentations_count'] * 10);
+            
+            // Construire l'URL complète de l'image
+            if ($result['image'] === 'default-avatar.png') {
+                $result['image'] = '/public/assets/images/default-avatar.png'; // Chemin vers l'image par défaut
+            } else {
+                $result['image'] = '/public/uploads/profiles/' . $result['image']; // Chemin vers les images uploadées
+            }
+        }
+        
+        return $results;
+        
+    } catch (PDOException $e) {
+        error_log('Database Error in GetRanking: ' . $e->getMessage());
+        return [];
+    }
+}
+public function GetUserStatistics($user_id) {
+    try {
+        $sql = "SELECT 
+                (SELECT COUNT(*) FROM presentations p 
+                 JOIN subject_assignments sa ON p.sujet_id = sa.sujet_id 
+                 WHERE sa.student_id = ?) as total_presentations,
+                
+                (SELECT COUNT(*) FROM sujet 
+                 WHERE id_student = ?) as total_suggestions,
+                
+                (SELECT COUNT(*) FROM sujet 
+                 WHERE id_student = ? AND status = 'approved') as approved_suggestions,
+                
+                (SELECT COUNT(*) FROM presentations p 
+                 JOIN subject_assignments sa ON p.sujet_id = sa.sujet_id 
+                 WHERE sa.student_id = ? AND p.status = 'completed') as completed_presentations,
+                
+                (SELECT COUNT(*) FROM presentations p 
+                 JOIN subject_assignments sa ON p.sujet_id = sa.sujet_id 
+                 WHERE sa.student_id = ? AND p.presentation_date > CURRENT_DATE()) as upcoming_presentations";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$user_id, $user_id, $user_id, $user_id, $user_id]);
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Calculer le score total
+        $result['total_score'] = ($result['completed_presentations'] * 10) + 
+                                ($result['approved_suggestions'] * 5);
+        
+        return $result;
+        
+    } catch (PDOException $e) {
+        error_log('Database Error in GetUserStatistics: ' . $e->getMessage());
+        return [
+            'total_presentations' => 0,
+            'total_suggestions' => 0,
+            'approved_suggestions' => 0,
+            'completed_presentations' => 0,
+            'upcoming_presentations' => 0,
+            'total_score' => 0
+        ];
+    }
+}
 }
 ?>

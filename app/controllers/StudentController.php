@@ -158,5 +158,63 @@ public function ShowCalendar() {
     ]);
 }
 
+public function GetRanking() {
+    if(!isset($_SESSION['user_id'])) {
+        header('Content-Type: application/json');
+        echo json_encode([]);
+        exit;
+    }
+    
+    $ranking = $this->StudentModel->GetRanking();
+    header('Content-Type: application/json');
+    echo json_encode($ranking);
+    exit;
+}
+
+public function ShowStatistics() {
+    if(!isset($_SESSION['user_id'])) {
+        header("Location: /login");
+        exit;
+    }
+    
+    $user_id = $_SESSION['user_id'];
+    $user_name = $_SESSION['user_name'];
+    
+    // Récupérer les statistiques personnelles
+    $statistics = $this->StudentModel->GetUserStatistics($user_id);
+    
+    // Récupérer le classement
+    $ranking = $this->StudentModel->GetRanking();
+   
+    // Récupérer les données supplémentaires
+    $presentations = $this->StudentModel->GetCalendarEvents($user_id);
+    $suggestions = $this->StudentModel->GetMySuggestions($user_id);
+    
+    $this->render('Etudiant/statistics', [
+        "user_id" => $user_id,
+        "user_name" => $user_name,
+        "statistics" => $statistics,
+        "ranking" => $ranking,
+        "presentations" => $presentations,
+        "suggestions" => $suggestions
+    ]);
+}
+
+// Ajouter cette méthode pour obtenir les statistiques au format JSON si nécessaire
+public function GetStatistics() {
+    if(!isset($_SESSION['user_id'])) {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Non autorisé']);
+        exit;
+    }
+    
+    $user_id = $_SESSION['user_id'];
+    $statistics = $this->StudentModel->GetUserStatistics($user_id);
+    
+    header('Content-Type: application/json');
+    echo json_encode($statistics);
+    exit;
+}
+
 }
 ?>

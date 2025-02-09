@@ -71,7 +71,10 @@ Route::get('/Etudiant/presentations', [StudentController::class, 'ShowPresentati
 Route::get('/Etudiant/calendar-events', [StudentController::class, 'GetCalendarEvents']);
 
 Route::get('/Etudiant/calendar', [StudentController::class, 'ShowCalendar']);
+Route::get('/Etudiant/ranking', [StudentController::class, 'GetRanking']);
 
+// Ajouter cette nouvelle route pour les statistiques
+Route::get('/Etudiant/statistics', [StudentController::class, 'ShowStatistics']);
 
 // Dispatch the request
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

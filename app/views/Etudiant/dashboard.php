@@ -112,9 +112,9 @@
         <div class="bg-white rounded-xl shadow-sm mb-8">
             <div class="p-6 border-b flex justify-between items-center">
                 <h2 class="text-xl font-semibold text-gray-800">Présentations récentes</h2>
-                <a href="/Etudiant/presentations" class="text-blue-600 hover:text-blue-700 text-sm">
-                    Voir tout <i class="fas fa-arrow-right ml-1"></i>
-                </a>
+                <a href="/Etudiant/statistics" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">
+    <i class="fas fa-chart-bar mr-3"></i>Statistiques
+</a>
             </div>
             <div class="p-6">
                 <div class="space-y-4">
@@ -186,32 +186,16 @@
 
             <!-- Classement -->
             <div class="bg-white rounded-xl shadow-sm">
-                <div class="p-6 border-b">
-                    <h2 class="text-xl font-semibold text-gray-800">Top 3 du classement</h2>
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Classement</h2>
+                    <div class="text-sm text-gray-500">
+                        <i class="fas fa-trophy text-yellow-400 mr-1"></i>
+                        Top 10
+                    </div>
                 </div>
                 <div class="p-6">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">
-                            <div class="flex items-center">
-                                <span class="w-8 h-8 flex items-center justify-center bg-yellow-200 rounded-full mr-3">1</span>
-                                <span class="font-semibold text-gray-800">Jane Doe</span>
-                            </div>
-                            <span class="font-bold text-gray-800">150 pts</span>
-                        </div>
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                            <div class="flex items-center">
-                                <span class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full mr-3">2</span>
-                                <span class="font-semibold text-gray-800">John Smith</span>
-                            </div>
-                            <span class="font-bold text-gray-800">120 pts</span>
-                        </div>
-                        <div class="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
-                            <div class="flex items-center">
-                                <span class="w-8 h-8 flex items-center justify-center bg-orange-200 rounded-full mr-3">3</span>
-                                <span class="font-semibold text-gray-800">Alice Johnson</span>
-                            </div>
-                            <span class="font-bold text-gray-800">100 pts</span>
-                        </div>
+                    <div class="space-y-4" id="rankingList">
+                        <!-- Le classement sera chargé dynamiquement -->
                     </div>
                 </div>
             </div>
@@ -345,6 +329,57 @@
                 console.log('Events loaded:', events);
             });
         });
+
+        // Fonction pour charger le classement
+        function loadRanking() {
+            fetch('/Etudiant/ranking')
+                .then(response => response.json())
+                .then(data => {
+                    const rankingList = document.getElementById('rankingList');
+                    rankingList.innerHTML = '';
+                    
+                    data.forEach((user, index) => {
+                        const rankClass = index === 0 ? 'bg-yellow-50' : 
+                                        index === 1 ? 'bg-gray-50' : 
+                                        index === 2 ? 'bg-orange-50' : 'bg-gray-50';
+                                        
+                        const medalClass = index === 0 ? 'bg-yellow-200' : 
+                                         index === 1 ? 'bg-gray-200' : 
+                                         index === 2 ? 'bg-orange-200' : 'bg-blue-100';
+                        
+                        rankingList.innerHTML += `
+                            <div class="flex items-center justify-between p-4 ${rankClass} rounded-lg hover:bg-opacity-75 transition-colors">
+                                <div class="flex items-center space-x-4">
+                                    <span class="w-8 h-8 flex items-center justify-center ${medalClass} rounded-full font-semibold">
+                                        ${index + 1}
+                                    </span>
+                                    <div>
+                                        <span class="font-semibold text-gray-800">${user.nom}</span>
+                                        <div class="text-xs text-gray-500 mt-1">
+                                            <span class="mr-2">
+                                                <i class="fas fa-chalkboard-teacher"></i> ${user.presentations_count} présentations
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-lightbulb"></i> ${user.suggestions_count} suggestions
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-bold text-gray-800">${user.total_points} pts</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Charger le classement au chargement de la page
+        document.addEventListener('DOMContentLoaded', loadRanking);
+
+        // Actualiser le classement toutes les 5 minutes
+        setInterval(loadRanking, 300000);
     </script>
 
     <style>
