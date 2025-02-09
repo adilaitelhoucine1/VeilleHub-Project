@@ -263,5 +263,88 @@ public function UpdatePresentationStatus($presentation_id, $status) {
         return $stmt->execute([$status, $presentation_id]);
   
 }
+
+public function getStatistics() {
+    return [
+        'totalStudents' => $this->getTotalStudents(),
+        'subjectStats' => $this->getSubjectStats(),
+        'presentations' => $this->getPresentationStats(),
+        'participation' => $this->getParticipationRate()
+       
+    ];
+}
+
+private function getTotalStudents() {
+    $sql = "SELECT COUNT(*) FROM user WHERE role = 'Apprenant'";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return (int)$stmt->fetchColumn();
+}
+
+private function getSubjectStats() {
+    $sql = "SELECT 
+            COUNT(*) as total,
+            COUNT(CASE WHEN status = 'Validé' THEN 1 END) as approved,
+            COUNT(CASE WHEN status = 'Rejeté' THEN 1 END) as rejected,
+            COUNT(CASE WHEN status = 'Proposé' THEN 1 END) as pending
+            FROM sujet";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    return [
+        'total' => (int)$result['total'],
+        'approved' => (int)$result['approved'],
+        'rejected' => (int)$result['rejected'],
+        'pending' => (int)$result['pending']
+    ];
+}
+
+private function getPresentationStats() {
+    $sql = "SELECT 
+            COUNT(*) as total,
+            COUNT(CASE WHEN status = 'Terminé' THEN 1 END) as completed,
+            COUNT(CASE WHEN presentation_date > CURRENT_DATE THEN 1 END) as upcoming,
+            COUNT(CASE WHEN status = 'Terminé' THEN 1 END) as successful
+            FROM presentations";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    return [
+        'total' => (int)$result['total'],
+        'completed' => (int)$result['completed'],
+        'upcoming' => (int)$result['upcoming'],
+        'successful' => (int)$result['successful']
+    ];
+}
+
+private function getParticipationRate() {
+    $sql = "SELECT 
+            ROUND(
+                (COUNT(CASE WHEN status = 'Terminé' THEN 1 END) * 100.0) / 
+                NULLIF(COUNT(*), 0)
+            , 1) as rate
+            FROM presentations 
+            WHERE presentation_date <= CURRENT_DATE";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return (float)$stmt->fetchColumn() ?: 0;
+}
+
+
+
+private function getMonthlyPresentationData() {
+    $sql = "SELECT 
+            DATE_FORMAT(presentation_date, '%Y-%m') as month,
+            COUNT(*) as count
+            FROM presentations
+            WHERE presentation_date >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+            GROUP BY DATE_FORMAT(presentation_date, '%Y-%m')
+            ORDER BY month ASC";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
 

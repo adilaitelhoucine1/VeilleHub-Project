@@ -16,9 +16,7 @@
                 <a href="/Formateur/Showsubjects" class="menu-item flex items-center px-4 py-3 text-gray-700">
                     <i class="fas fa-tasks mr-3 text-gray-400"></i>Attribution Sujets
                 </a>
-                <a href="#" class="menu-item flex items-center px-4 py-3 text-gray-700">
-                    <i class="fas fa-chart-bar mr-3 text-gray-400"></i>Statistiques
-                </a>
+            
                 <a href="/logout" class="menu-item flex items-center px-4 py-3 text-red-600">
                     <i class="fas fa-sign-out-alt mr-3 text-red-600"></i>Déconnexion
                 </a>

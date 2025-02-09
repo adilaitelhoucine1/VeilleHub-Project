@@ -20,10 +20,19 @@ class AdminController extends BaseController {
       //    header("Location: /login ");
       //    exit;
       // }
-    $user_id= $_SESSION['user_id'];
-    $user_name= $_SESSION['user_name'];
-    $apprenants=$this->AdminModel->GetAllStudents();
-    $this->render('Formateur/dashboard', ["user_id" => $user_id, "user_name" => $user_name,"apprenants"=>$apprenants]);
+    $user_id = $_SESSION['user_id'];
+    $user_name = $_SESSION['user_name'];
+    $apprenants = $this->AdminModel->GetAllStudents();
+    $statistics = $this->AdminModel->getStatistics();
+    $upcoming_presentations = $this->AdminModel->GetScheduledPresentations();
+    
+    $this->render('Formateur/dashboard', [
+        "user_id" => $user_id, 
+        "user_name" => $user_name,
+        "apprenants" => $apprenants, 
+        "statistics" => $statistics, 
+        "upcoming_presentations" => $upcoming_presentations
+    ]);
    }
    
    public function DeleteUser($user_id){
@@ -257,6 +266,13 @@ public function UpdatePresentationStatus($presentation_id, $status) {
     } else {
         header('Location: /Formateur/calendar?error=update_failed');
     }
+    exit();
+}
+
+public function getStatisticsData() {
+    header('Content-Type: application/json');
+    $statistics = $this->AdminModel->getStatistics();
+    echo json_encode($statistics);
     exit();
 }
 
