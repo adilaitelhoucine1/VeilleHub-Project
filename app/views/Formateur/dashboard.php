@@ -315,6 +315,97 @@ $currentPage = 'dashboard';
             </div>
         </div>
 
+        <!-- Section Formateurs -->
+        <div class="bg-white rounded-2xl shadow-lg mb-8 overflow-hidden border border-gray-100">
+            <div class="relative p-8 border-b border-gray-100">
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-50 to-indigo-50 opacity-50"></div>
+                <div class="relative flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <div class="p-3 bg-purple-100 rounded-xl shadow-sm">
+                            <i class="fas fa-chalkboard-teacher text-purple-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Liste des Formateurs</h2>
+                            <p class="text-gray-500 text-sm">Équipe pédagogique</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-8 bg-gray-50">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <?php foreach ($apprenants as $user): ?>
+                        <?php if ($user['role'] === 'Formateur'): ?>
+                            <div class="group bg-white rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-100 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-indigo-50/50 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                                
+                                <div class="relative flex items-start space-x-4">
+                                    <div class="relative group-hover:transform group-hover:scale-105 transition-all duration-300">
+                                        <div class="w-16 h-16 rounded-xl overflow-hidden shadow-sm border-2 border-gray-50">
+                                            <img src="https://intranet.youcode.ma/storage/users/profile/thumbnail/1176-1730909420.jpg" 
+                                                 alt="<?php echo htmlspecialchars($user['nom']) ?>" 
+                                                 class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-green-500
+                                            <?php echo $user['status'] == 'actif' 
+                                                
+                                                ?> 
+                                            border-2 border-white shadow-sm"></div>
+                                    </div>
+
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <h3 class="font-semibold text-gray-800 group-hover:text-purple-600 transition-colors truncate">
+                                                    <?php echo htmlspecialchars($user['nom']) ?>
+                                                </h3>
+                                                <p class="text-gray-500 text-sm flex items-center gap-1">
+                                                    <i class="far fa-envelope text-gray-400"></i>
+                                                    <span class="truncate"><?php echo htmlspecialchars($user['email']) ?></span>
+                                                </p>
+                                            </div>
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium 
+                                                <?php echo $user['status'] === 'active' 
+                                                    ? 'bg-green-50 text-green-700 ring-1 ring-green-600/10' 
+                                                    : 'bg-red-50 text-red-700 ring-1 ring-red-600/10' ?>">
+                                                <span class="w-1 h-1 rounded-full bg-green-600
+                                                    <?php echo $user['status'] === 'active' 
+                                                         ?> 
+                                                    mr-1.5"></span>
+                                                <?php echo $user['status'] ?>
+                                            </span>
+                                        </div>
+
+                                        <!-- Actions avec animation au hover -->
+                                        <div class="mt-4 flex gap-2 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                                            <a href="/Formateur/toggle-status/<?php echo $user['id_user'] ?>" 
+                                               class="flex-1 py-2 px-3 rounded-lg text-sm font-medium inline-flex items-center justify-center gap-2
+                                                <?php echo $user['status'] === 'active' 
+                                                    ? 'bg-red-50 text-red-600 hover:bg-red-100 ring-1 ring-red-500/10' 
+                                                    : 'bg-green-50 text-green-600 hover:bg-green-100 ring-1 ring-green-500/10' ?> 
+                                                transition-all duration-300"
+                                               onclick="return confirm('Êtes-vous sûr de vouloir <?php echo $user['status'] === 'active' ? 'désactiver' : 'activer' ?> ce compte ?');">
+                                                <i class="fas <?php echo $user['status'] === 'active' ? 'fa-user-slash' : 'fa-user-check' ?>"></i>
+                                                <span><?php echo $user['status'] === 'active' ? 'Désactiver' : 'Activer' ?></span>
+                                            </a>
+                                            
+                                            <a href="/formateur/delete/<?php echo $user['id_user'] ?>" 
+                                               class="flex-1 py-2 px-3 rounded-lg text-sm font-medium inline-flex items-center justify-center gap-2 
+                                               bg-red-50 text-red-600 hover:bg-red-100 ring-1 ring-red-500/10 transition-all duration-300"
+                                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce compte ?');">
+                                                <i class="fas fa-trash"></i>
+                                                <span>Supprimer</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+
         <!-- Liste des Apprenants -->
         <div class="bg-white rounded-2xl shadow-lg mb-8 overflow-hidden border border-gray-100">
             <!-- Header avec effet moderne -->
@@ -381,10 +472,9 @@ $currentPage = 'dashboard';
                                         <?php echo $apprenant['status'] === 'active' 
                                             ? 'bg-green-50 text-green-700 ring-1 ring-green-600/10' 
                                             : 'bg-red-50 text-red-700 ring-1 ring-red-600/10' ?>">
-                                        <span class="w-1 h-1 rounded-full 
-                                            <?php echo $apprenant['status'] === 'active' 
-                                                ? 'bg-green-600' 
-                                                : 'bg-red-600' ?> 
+                                        <span class="w-1 h-1 rounded-full bg-green-600
+                                            <?php echo $apprenant['status'] 
+                                                ?> 
                                             mr-1.5"></span>
                                         <?php echo $apprenant['status'] ?>
                                     </span>

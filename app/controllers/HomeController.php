@@ -68,6 +68,10 @@ class HomeController extends BaseController {
         $presentations = $this->UserModel->getAllPresentations();
         $this->render('calendar', ['presentations' => $presentations]);
     }
+    public function notactive() {
+      
+        $this->render('account_inactive');
+    }
 
     public function assignPresentation($studentInfo, $sujetInfo) {
         try {

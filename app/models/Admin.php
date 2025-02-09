@@ -7,10 +7,10 @@ public function __construct()
     parent::__construct();
 }
 
-public function GetAllStudents() {
-    $sql = "SELECT * FROM user where role = 'Apprenant'";
+public function GetAllUsers($id_user) {
+    $sql = "SELECT * FROM user where id_user <> ?";
     $stmt =  $this->conn->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([$id_user]);
     return $stmt->fetchAll();
 }
 public function DeleteUser($user_id) {

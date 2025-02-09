@@ -20,9 +20,17 @@ class AdminController extends BaseController {
         header("Location: /login");
         exit;
     }
+
+    $user_status = $this->UserModel->getUserStatus($_SESSION['user_id']);
+   
+    if($user_status === "inactif"){
+     header("Location: /account_inactive");
+     exit;
+    }
+
     $user_id = $_SESSION['user_id'];
     $user_name = $_SESSION['user_name'];
-    $apprenants = $this->AdminModel->GetAllStudents();
+    $apprenants = $this->AdminModel->GetAllUsers($user_id);
     $statistics = $this->AdminModel->getStatistics();
     $upcoming_presentations = $this->AdminModel->GetScheduledPresentations();
     

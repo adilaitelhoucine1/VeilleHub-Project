@@ -31,6 +31,7 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/reset-password', [HomeController::class, 'resetPassword']);
 Route::post('/reset-password', [HomeController::class, 'resetPassword']);
+Route::get('/account_inactive', [HomeController::class, 'notactive']);
 
 // admin routers
 

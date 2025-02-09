@@ -244,4 +244,16 @@ public function saveResetToken($email, $token, $expiry) {
     }
 }
 
+public function getUserStatus($user_id) {
+    try {
+        $sql = "SELECT status FROM user WHERE id_user = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$user_id]);
+        return $stmt->fetchColumn();
+    } catch (PDOException $e) {
+        error_log("Erreur lors de la vérification du statut : " . $e->getMessage());
+        return false;
+    }
+}
+
 }
