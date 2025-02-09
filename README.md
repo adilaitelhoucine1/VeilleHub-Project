@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/user/ff52345a-93dc-4f6f-969d-00268863daf7/project/9c1c57b5-c0d4-4576-8709-314e7bacb331.svg)](https://wakatime.com/badge/user/ff52345a-93dc-4f6f-969d-00268863daf7/project/9c1c57b5-c0d4-4576-8709-314e7bacb331)
+
 🚀 Plateforme de Veille Pédagogique 🎓
 
 Une solution interactive et moderne pour dynamiser le partage de connaissances entre étudiants et enseignants ! Cette plateforme facilite l'organisation des présentations, la gestion des sujets et le suivi de la participation. 📚✨
@@ -36,7 +38,7 @@ git clone https://github.com/adilaitelhoucine1/VeilleHub-Project.git
 
 🛠️ 2. Démarrer le serveur PHP
 
-cd mon-projet-mvc  
+cd VeilleHub-Project
 php -S localhost:8000 -t public
 
 🌍 3. Accéder à la plateforme👉 http://localhost:8000
