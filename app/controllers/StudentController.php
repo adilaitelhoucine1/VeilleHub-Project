@@ -18,29 +18,31 @@ class StudentController extends BaseController {
      }
 
      public function ShowDashboard() {
-      
-        // if(!(isset($_SESSION['role']) == "Formateur")){
-        //    header("Location: /login ");
-        //    exit;
-        // }
-      $user_id= $_SESSION['user_id'];
-      $user_name= $_SESSION['user_name'];
-      //$apprenants=$this->StudentModel->GetAllStudents();
-      $presentations = $this->StudentModel->GetCalendarEvents($user_id);
-      $suggestions = $this->StudentModel->GetMySuggestions($user_id);
-      $statistics = $this->StudentModel->GetUserStatistics($user_id);
-      $ranking = $this->StudentModel->GetRanking();
-    //   print_r($statistics);
-    //   die();
-      $this->render('Etudiant/dashboard', [
-          "user_id" => $user_id,
-          "user_name" => $user_name,
-          "presentations" => $presentations,
-          "suggestions" => $suggestions,
-          "statistics" => $statistics,
-          "ranking" => $ranking
-      ]);
-     }
+
+     
+
+        if ($_SESSION['user_role'] !== 'Apprenant') {
+            header("Location: /login");
+            exit;
+        }
+        
+        $user_id = $_SESSION['user_id'];
+        $user_name = $_SESSION['user_name'];
+        
+        $presentations = $this->StudentModel->GetCalendarEvents($user_id);
+        $suggestions = $this->StudentModel->GetMySuggestions($user_id);
+        $statistics = $this->StudentModel->GetUserStatistics($user_id);
+        $ranking = $this->StudentModel->GetRanking();
+        
+        $this->render('Etudiant/dashboard', [
+            "user_id" => $user_id,
+            "user_name" => $user_name,
+            "presentations" => $presentations,
+            "suggestions" => $suggestions,
+            "statistics" => $statistics,
+            "ranking" => $ranking
+        ]);
+    }
 
  public function AddSuggestion() {
     if (!isset($_SESSION['user_id']) || !isset($_POST['titre']) || !isset($_POST['description'])) {

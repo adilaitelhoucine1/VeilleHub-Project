@@ -15,11 +15,11 @@ class AdminController extends BaseController {
      }
 
    public function Admindashboard() {
-      
-      // if(!(isset($_SESSION['role']) == "Formateur")){
-      //    header("Location: /login ");
-      //    exit;
-      // }
+    
+       if ($_SESSION['user_role'] !== 'Formateur') {
+        header("Location: /login");
+        exit;
+    }
     $user_id = $_SESSION['user_id'];
     $user_name = $_SESSION['user_name'];
     $apprenants = $this->AdminModel->GetAllStudents();
