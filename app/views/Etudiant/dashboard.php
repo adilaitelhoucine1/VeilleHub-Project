@@ -21,7 +21,9 @@
 
    
     <div class="ml-64 p-8">
-       
+       <?php 
+      
+       print_r(count($suggestions));  ?>
         <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-sm">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">Tableau de bord</h1>
@@ -59,7 +61,7 @@
                         <i class="fas fa-lightbulb text-green-600"></i>
                     </div>
                 </div>
-                <p class="text-2xl font-bold text-gray-800 mt-2"><?php echo count($suggestions ?? []) ?></p>
+                <p class="text-2xl font-bold text-gray-800 mt-2"><?php echo count($suggestions) ?></p>
                 <p class="text-sm text-gray-500">Proposées</p>
             </div>
 
@@ -138,47 +140,33 @@
             </div>
         </div>
 
-        <!-- Notifications -->
-        <!-- <div class="fixed bottom-4 right-4">
-            <div class="bg-white p-4 rounded-lg shadow-lg border-l-4 border-blue-500 max-w-md">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h4 class="font-semibold text-gray-800">Nouvelle notification</h4>
-                        <p class="text-sm text-gray-600 mt-1">Votre présentation "React Native" a été confirmée.</p>
-                    </div>
-                    <button class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- Suggestions et Classement -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Suggestions -->
+        <!-- Statistiques et Classement -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Statistiques -->
             <div class="bg-white rounded-xl shadow-sm">
-                <div class="p-6 border-b">
-                    <h2 class="text-xl font-semibold text-gray-800">Mes suggestions</h2>
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Mes statistiques</h2>
+                    <a href="/Etudiant/statistics" class="text-blue-600 hover:text-blue-700">
+                        <i class="fas fa-chart-line mr-1"></i>Voir détails
+                    </a>
                 </div>
                 <div class="p-6">
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                            <div>
-                                <h3 class="font-semibold text-gray-800">Intelligence Artificielle</h3>
-                                <p class="text-sm text-gray-600">Soumis le 10 Mars</p>
-                            </div>
-                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                                Approuvé
-                            </span>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <p class="text-3xl font-bold text-blue-600"><?php echo count($presentations)  ?></p>
+                            <p class="text-sm text-gray-600">Présentations</p>
                         </div>
-                        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                            <div>
-                                <h3 class="font-semibold text-gray-800">Cybersécurité</h3>
-                                <p class="text-sm text-gray-600">Soumis le 5 Mars</p>
-                            </div>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                                En attente
-                            </span>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <p class="text-3xl font-bold text-green-600"><?php  echo count($suggestions)  ?></p>
+                            <p class="text-sm text-gray-600">Suggestions</p>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <p class="text-3xl font-bold text-purple-600">--</p>
+                            <p class="text-sm text-gray-600">Points</p>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <p class="text-3xl font-bold text-yellow-600">--</p>
+                            <p class="text-sm text-gray-600">Classement</p>
                         </div>
                     </div>
                 </div>
@@ -195,7 +183,29 @@
                 </div>
                 <div class="p-6">
                     <div class="space-y-4" id="rankingList">
-                        <!-- Le classement sera chargé dynamiquement -->
+                        <?php foreach ($ranking as $index => $user): ?>
+                            <div class="flex items-center justify-between p-4 <?php echo $index < 3 ? 'bg-' . ($index === 0 ? 'yellow' : ($index === 1 ? 'gray' : 'orange')) . '-50' : 'bg-gray-50' ?> rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <span class="w-8 h-8 flex items-center justify-center <?php echo $index < 3 ? 'bg-' . ($index === 0 ? 'yellow' : ($index === 1 ? 'gray' : 'orange')) . '-200' : 'bg-blue-100' ?> rounded-full font-semibold">
+                                        <?php echo $index + 1 ?>
+                                    </span>
+                                    <div>
+                                        <span class="font-semibold text-gray-800"><?php echo htmlspecialchars($user['nom']) ?></span>
+                                        <div class="text-xs text-gray-500 mt-1">
+                                            <span class="mr-2">
+                                                <i class="fas fa-chalkboard-teacher"></i> <?php echo $user['total_presentation'] ?> présentations
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-lightbulb"></i> <?php echo isset($user['total_suggestions']) ? $user['total_suggestions'] : 0 ?> suggestions
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-bold text-gray-800"><?php echo isset($user['total_points']) ? $user['total_points'] : ($user['total_presentation'] * 10) ?> pts</span>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -357,10 +367,10 @@
                                         <span class="font-semibold text-gray-800">${user.nom}</span>
                                         <div class="text-xs text-gray-500 mt-1">
                                             <span class="mr-2">
-                                                <i class="fas fa-chalkboard-teacher"></i> ${user.presentations_count} présentations
+                                                <i class="fas fa-chalkboard-teacher"></i> ${user.total_presentation} présentations
                                             </span>
                                             <span>
-                                                <i class="fas fa-lightbulb"></i> ${user.suggestions_count} suggestions
+                                                <i class="fas fa-lightbulb"></i> ${user.total_suggestions} suggestions
                                             </span>
                                         </div>
                                     </div>

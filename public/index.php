@@ -73,8 +73,7 @@ Route::get('/Etudiant/calendar-events', [StudentController::class, 'GetCalendarE
 Route::get('/Etudiant/calendar', [StudentController::class, 'ShowCalendar']);
 Route::get('/Etudiant/ranking', [StudentController::class, 'GetRanking']);
 
-// Ajouter cette nouvelle route pour les statistiques
-Route::get('/Etudiant/statistics', [StudentController::class, 'ShowStatistics']);
+
 
 // Test SMTP (à retirer après les tests)
 Route::get('/test-email', function() {

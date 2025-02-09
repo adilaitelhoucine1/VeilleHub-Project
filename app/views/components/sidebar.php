@@ -28,9 +28,7 @@
             <a href="/Etudiant/suggestions" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">
                 <i class="fas fa-lightbulb mr-3"></i>Suggestions
             </a>
-            <a href="#stats" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg">
-                <i class="fas fa-chart-bar mr-3"></i>Statistiques
-            </a>
+         
             <a href="/logout" class="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg">
                 <i class="fas fa-sign-out-alt mr-3"></i>Déconnexion
             </a>

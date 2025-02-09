@@ -123,7 +123,7 @@
                             <input type="checkbox" class="form-checkbox text-blue-600 rounded">
                             <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
                         </label>
-                        <a href="/forgot-password" class="text-sm text-blue-600 hover:text-blue-700">
+                        <a href="/reset-password" class="text-sm text-blue-600 hover:text-blue-700">
                             Mot de passe oublié ?
                         </a>
                     </div>

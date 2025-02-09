@@ -28,11 +28,17 @@ class StudentController extends BaseController {
       //$apprenants=$this->StudentModel->GetAllStudents();
       $presentations = $this->StudentModel->GetCalendarEvents($user_id);
       $suggestions = $this->StudentModel->GetMySuggestions($user_id);
+      $statistics = $this->StudentModel->GetUserStatistics($user_id);
+      $ranking = $this->StudentModel->GetRanking();
+    //   print_r($statistics);
+    //   die();
       $this->render('Etudiant/dashboard', [
           "user_id" => $user_id,
           "user_name" => $user_name,
           "presentations" => $presentations,
-          "suggestions" => $suggestions
+          "suggestions" => $suggestions,
+          "statistics" => $statistics,
+          "ranking" => $ranking
       ]);
      }
 
@@ -161,13 +167,24 @@ public function ShowCalendar() {
 public function GetRanking() {
     if(!isset($_SESSION['user_id'])) {
         header('Content-Type: application/json');
-        echo json_encode([]);
+        echo json_encode(['error' => 'Non autorisé']);
         exit;
     }
     
-    $ranking = $this->StudentModel->GetRanking();
-    header('Content-Type: application/json');
-    echo json_encode($ranking);
+    try {
+        $ranking = $this->StudentModel->GetRanking();
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => true,
+            'data' => $ranking
+        ]);
+    } catch (Exception $e) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'error' => 'Erreur lors de la récupération du classement'
+        ]);
+    }
     exit;
 }
 
